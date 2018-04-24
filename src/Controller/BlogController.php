@@ -29,20 +29,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/new", name="blog_show", methods="GET")
-     */
-    public function newPost()
-    {
-        $post = new BlogPost();
-        $form = $this->createForm(BlogPostType::class, $post);
-        
-        return $this->render('blog/edit.html.twig', array(
-            'form' => $form->createView(),
-        ));
-    }
-
-    /**
-     * @Route("/blog/new", name="blog_post", methods="POST")
+     * @Route("/blog/new", name="blog_new")
      */
     public function post(Request $request, LoggerInterface $logger)
     {
@@ -51,6 +38,7 @@ class BlogController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            // on a valid POST request
             $entityManager = $this->getDoctrine()->getManager();
             $user = $this->getDoctrine()->getRepository(User::class)->find(1);
 
@@ -62,14 +50,21 @@ class BlogController extends Controller
             $entityManager->persist($post);
             $entityManager->flush();
 
-            $logger->info('Blog post submitted with id ' . $post->getId());
+            $logger->info('Blog bnlopost submitted with id ' . $post->getId());
 
-            return new Response("Blog post saved with id " . $post->getId());
+            return $this->redirectToRoute('blog_show', [
+                'id' => $post->getId()
+            ]);
+        } else {
+            // on GET or invalid POST request
+            return $this->render('blog/edit.html.twig', array(
+                'form' => $form->createView(),
+            ));
         }
     }
 
     /**
-     * @Route("/blog/{id}", name="blog_post")
+     * @Route("/blog/{id}", name="blog_show", requirements={"id"="\d+"})
      */
     public function showPost(BlogPost $blogPost)
     {
