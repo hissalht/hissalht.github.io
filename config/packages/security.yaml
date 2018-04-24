@@ -13,7 +13,6 @@ security:
             security: false
         main:
             anonymous: true
-            pattern: ^/
             http_basic: ~
             provider: db_provider
 
