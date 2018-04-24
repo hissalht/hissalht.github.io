@@ -8,8 +8,8 @@
 
 <p>Content : {{ post.content }}</p>
 
-{# <p>{{ post.publicationDate }}</p>
+<p>Publication date : {{ post.publicationDate | localizeddate('medium', 'medium') }}</p>
 
-<p>{{ post.editDate }}</p> #}
+<p>Last edit date : {{ post.editDate | localizeddate('medium', 'medium') }}</p>
 
 {% endblock %}
