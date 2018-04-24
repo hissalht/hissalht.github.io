@@ -6,4 +6,15 @@
 <p>ID : {{ user.id }}</p>
 <p>Status : {{ user.status }}</p>
 
+<h4>Posts</h4>
+<ul>
+    {% for post in user.posts %}
+        <li>
+            <a href="{{ path('blog_show', {'id': post.id}) }}">
+                {{ post.title }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

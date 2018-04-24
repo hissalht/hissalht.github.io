@@ -6,6 +6,13 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <h1>That guy's website</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ path('blog_list') }}">Blog posts</a></li>
+                <li><a href="{{ path('user_list') }}">User list</a></li>
+            </ul>
+        </nav>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

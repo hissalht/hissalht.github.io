@@ -17,7 +17,7 @@ class BlogController extends Controller
 {
 
     /**
-     * @Route("/blog", name="blog_index")
+     * @Route("/blog", name="blog_list")
      */
     public function index()
     {

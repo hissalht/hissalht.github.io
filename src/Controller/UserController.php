@@ -22,7 +22,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/user/{id}", name="user_swhow", requirements={"id"="\d+"})
+     * @Route("/user/{id}", name="user_show", requirements={"id"="\d+"})
      */
     public function showUser(User $user)
     {

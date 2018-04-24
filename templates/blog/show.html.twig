@@ -4,6 +4,8 @@
 
 <p>ID : {{ post.id }}</p>
 
+<p>Author : <a href="{{ path('user_show', {'id':post.author.id}) }}">{{ post.author.name }}</a></p>
+
 <p>Title : {{ post.title }}</p>
 
 <p>Content : {{ post.content }}</p>
