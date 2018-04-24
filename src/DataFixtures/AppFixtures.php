@@ -21,7 +21,6 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->createUsers($manager);
-        $this->createBlogPosts($manager);
 
         $manager->flush();
     }
@@ -33,6 +32,16 @@ class AppFixtures extends Fixture
 
         $adminUser = $this->createUser('admin', 'admin@example.co', 'adminpassword', array('ROLE_USER', 'ROLE_ADMIN'));
         $manager->persist($adminUser);
+
+        $post1 = $this->createBlogPost('Example', 'This is some content', $user);
+        $post2 = $this->createBlogPost('Example2', 'Example example', $adminUser);
+        $post3 = $this->createBlogPost('Example3', 'Example example', $adminUser);
+        $post4 = $this->createBlogPost('Example4', 'Example example', $adminUser);
+
+        $manager->persist($post1);
+        $manager->persist($post2);
+        $manager->persist($post3);
+        $manager->persist($post4);
     }
 
     private function createUser($username, $email, $password, $roles)
@@ -46,8 +55,15 @@ class AppFixtures extends Fixture
         return $user;
     }
 
-    private function createBlogPosts($manager)
+    private function createBlogPost($title, $content, $author)
     {
-
+        $post = new BlogPost();
+        $post->setTitle($title);
+        $post->setContent($content);
+        $post->setAuthor($author);
+        $post->setPublicationDate(new \DatetimeImmutable('now'));
+        $post->setEditDate(new \Datetime('now'));
+        return $post;
     }
+
 }
