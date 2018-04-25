@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/blog/new", name="blog_new")
+     * @Security("has_role('ROLE_USER')")
      */
     public function post(Request $request, LoggerInterface $logger)
     {
