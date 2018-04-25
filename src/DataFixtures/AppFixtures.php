@@ -34,9 +34,9 @@ class AppFixtures extends Fixture
         $manager->persist($adminUser);
 
         $post1 = $this->createBlogPost('Example', 'This is some content', $user);
-        $post2 = $this->createBlogPost('Example2', 'Example example', $adminUser);
+        $post2 = $this->createBlogPost('Example2', '<h1>Title</h1><p>Parahraph paragragph</p>', $adminUser);
         $post3 = $this->createBlogPost('Example3', 'Example example', $adminUser);
-        $post4 = $this->createBlogPost('Example4', 'Example example', $adminUser);
+        $post4 = $this->createBlogPost('Script content', '<script>alert(\'Breached !!\')', $adminUser);
 
         $manager->persist($post1);
         $manager->persist($post2);

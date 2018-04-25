@@ -6,12 +6,14 @@
 
 <p>Author : <a href="{{ path('user_show', {'id':post.author.id}) }}">{{ post.author.username }}</a></p>
 
-<p>Title : {{ post.title }}</p>
-
-<p>Content : {{ post.content }}</p>
-
 <p>Publication date : {{ post.publicationDate | localizeddate('medium', 'medium') }}</p>
 
 <p>Last edit date : {{ post.editDate | localizeddate('medium', 'medium') }}</p>
+
+<h2>{{ post.title }}</h2>
+
+<div class="blogpost-content">
+    {{ post.content | striptags(post_authorized_tags) | raw }}
+</div>
 
 {% endblock %}
