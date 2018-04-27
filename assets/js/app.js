@@ -1,5 +1,7 @@
 require('../css/app.sass');
 
+import 'prismjs';
+
 $.when($.ready).then(function() {
 
     // navigation burger activation
