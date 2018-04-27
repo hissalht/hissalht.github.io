@@ -4,3 +4,5 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         post_authorized_tags: '<h1><h2><h3>,<h4>,<h5>,<pre>,<div>,<p>,<ul>,<li>'
+    form_themes:
+        - 'form/bulma_fields.html.twig'

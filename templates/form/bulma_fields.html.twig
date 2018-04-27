@@ -1,0 +1,53 @@
+{% extends 'form_div_layout.html.twig' %}
+
+
+{% block form_row %}
+  {% set widget_attr = {} %}
+  <div class="field">
+    {{- form_label(form) -}}
+    {{- form_errors(form) -}}
+    {{- form_widget(form, widget_attr) -}}
+  </div>
+{% endblock form_row %}
+
+
+{% block form_label %}
+  {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' label') | trim }) %}
+  {{ parent() }}
+{% endblock form_label %}
+
+
+{% block form_widget_simple %}
+  {% set attr = attr|merge({'class': (attr.class|default('') ~ ' input') | trim }) %}
+  <div class="control">
+    {{ parent() }}
+  </div>
+{% endblock form_widget_simple %}
+
+
+{% block textarea_widget %}
+
+  {% set attr = attr|merge({'class': (attr.class|default('') ~ ' textarea') | trim }) %}
+  <div class="control">
+    {{ parent() }}
+  </div>
+  {% if help is defined %}
+    <p class="help">{{ help }}</p>
+  {% endif %}
+{% endblock textarea_widget %}
+
+
+{% block button_widget %}
+  {% set attr = attr|merge({'class': (attr.class|default('') ~ ' button') | trim }) %}
+  {{ parent() }}
+{% endblock button_widget %}
+
+{% block choice_widget %}
+  {% set attr = attr|merge({'class': (attr.class|default('') ~ ' select') | trim }) %}
+  {{ parent() }}
+{% endblock choice_widget %}
+
+{% block radio_widget %}
+  {% set attr = attr|merge({'class': (attr.class|default('') ~ ' radio') | trim }) %}
+  {{ parent() }}
+{% endblock radio_widget %}
