@@ -5,8 +5,11 @@ namespace App\Form;
 use App\Entity\BlogPost;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class BlogPostType extends AbstractType
 {
@@ -15,10 +18,22 @@ class BlogPostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
+            ->add('tags', TextType::class, array('required' => false))
             ->add('save', SubmitType::class, array('label' => 'Save'))
-            // ->add('publication_date')
-            // ->add('edit_date')
-            // ->add('author')
+        ;
+
+        $builder->get('tags')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($tagsAsArray) {
+                    if($tagsAsArray){
+                        return implode('. ', $tagsAsArray);
+                    }
+                    return '';
+                },
+                function ($tagsAsString) {
+                    return explode(', ', $tagsAsString);
+                }
+            ))
         ;
     }
 
@@ -28,4 +43,5 @@ class BlogPostType extends AbstractType
             'data_class' => BlogPost::class,
         ]);
     }
+
 }

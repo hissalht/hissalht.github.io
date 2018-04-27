@@ -11,14 +11,12 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    // .addEntry('js/app', './assets/js/app.js')
-    // .addStyleEntry('css/app', './assets/css/app.scss')
+    .addEntry('app', './assets/js/app.js')
 
-    // uncomment if you use Sass/SCSS files
-    // .enableSassLoader()
-
-    // uncomment for legacy applications that require $/jQuery as a global variable
-    // .autoProvidejQuery()
+    .enableSassLoader()
+    .autoProvidejQuery()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableBuildNotifications()
 ;
 
 module.exports = Encore.getWebpackConfig();

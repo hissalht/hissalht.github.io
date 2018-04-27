@@ -1,18 +1,15 @@
-
-{% extends 'base.html.twig' %}
-
-{% block body %}
+ {% extends 'base.html.twig' %} {% block body %}
 
 <h2>Posts</h2>
 
 <ul>
-    {% for post in posts %}
-        <li>
-            <a href="{{ path('blog_show', {'id': post.id}) }}">
-                {{ post.title }}
-            </a>
-        </li>
-    {% endfor %}
+  {% for post in posts %}
+  <li>
+    <a href="{{ path('blog_show', {'id': post.id}) }}">
+      {{ post.title }}
+    </a>
+  </li>
+  {% endfor %}
 </ul>
 
 {% endblock %}

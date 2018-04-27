@@ -42,6 +42,11 @@ class BlogPost
      */
     private $edit_date;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $tags;
+
     public function getId()
     {
         return $this->id;
@@ -106,4 +111,17 @@ class BlogPost
 
         return $this;
     }
+
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
 }

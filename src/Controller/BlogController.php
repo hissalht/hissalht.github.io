@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +13,14 @@ use App\Entity\BlogPost;
 use App\Entity\User;
 use App\Form\BlogPostType;
 
-
+/**
+ * @Route("/blog")
+ */
 class BlogController extends Controller
 {
 
     /**
-     * @Route("/blog", name="blog_list")
+     * @Route("/", name="blog_list")
      */
     public function index()
     {
@@ -29,7 +32,8 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/new", name="blog_new")
+     * @Route("/new", name="blog_new")
+     * @Security("has_role('ROLE_USER')")
      */
     public function post(Request $request, LoggerInterface $logger)
     {
@@ -40,7 +44,7 @@ class BlogController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             // on a valid POST request
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $this->getDoctrine()->getRepository(User::class)->find(1);
+            $user = $this->getUser();
 
             $post = $form->getData();
             $post->setPublicationDate(new \DateTimeImmutable("now"));
@@ -64,29 +68,38 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/{id}", name="blog_show", requirements={"id"="\d+"})
+     * Redirect to the the most recently posted blog post.
+     * @Route("/last", name="blog_last")
      */
-    public function showPost(BlogPost $blogPost)
+    public function getLastPost()
     {
-        return $this->render('blog/show.html.twig', [
-            'post' => $blogPost
+        $repo = $this->getDoctrine()->getRepository(BlogPost::class);
+        $p = $repo->getLastPost();
+
+        return $this->redirectToRoute('blog_show', [
+            'id' => $p->getId()
         ]);
+
     }
 
     /**
-     * @Route("/debug", name="blog_gen_user")
+     * @Route("/{id}", name="blog_show", requirements={"id"="\d+"})
      */
-    public function debug()
+    public function showPost(BlogPost $blogPost)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $repo = $this->getDoctrine()->getRepository(BlogPost::class);
+        $previous = $repo->getPreviousPost($blogPost);
+        $next = $repo->getNextPost($blogPost);
+        $last = $repo->getLastPost();
+        $first = $repo->getFirstPost();
 
-        $user = new User();
-        $user->setName("root");
-        $user->setStatus("debug");
-        
-        $entityManager->persist($user);
-        $entityManager->flush();
 
-        return new Response("Saved new user with id " . $user->getId());
+        return $this->render('blog/show.html.twig', [
+            'post' => $blogPost,
+            'previous' => $previous,
+            'next' => $next,
+            'last' => $last,
+            'first' => $first,
+        ]);
     }
 }
