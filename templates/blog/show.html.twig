@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
+{% extends 'base.html.twig' %} {% block body %}
 
 <p>ID : {{ post.id }}</p>
 
-<p>Author : <a href="{{ path('user_show', {'id':post.author.id}) }}">{{ post.author.username }}</a></p>
+<p>Author :
+  <a href="{{ path('user_show', {'id':post.author.id}) }}">{{ post.author.username }}</a>
+</p>
 
 <p>Publication date : {{ post.publicationDate | localizeddate('medium', 'medium') }}</p>
 
@@ -13,7 +13,7 @@
 <h2>{{ post.title }}</h2>
 
 <div class="blogpost-content">
-    {{ post.content | striptags(post_authorized_tags) | raw }}
+  {{ post.content | striptags(post_authorized_tags) | raw }}
 </div>
 
 {% endblock %}
