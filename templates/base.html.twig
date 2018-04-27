@@ -2,18 +2,54 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
     </head>
     <body>
-        <h1>That guy's website</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ path('blog_list') }}">Blog posts</a></li>
-                <li><a href="{{ path('user_list') }}">User list</a></li>
-            </ul>
+
+        <section class="hero is-primary is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title"> That guy's website </h1>
+                    <h2 class="subtitle"> "I litteraly have nothing else to do." </h2>
+                </div>
+            </div>
+        </section>
+
+        <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ path('blog_list') }}">Home</a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu" id="navMenu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{{ path('blog_list') }}">Blog posts</a>
+                    <a class="navbar-item" href="{{ path('user_list') }}">User list</a>
+                </div>
+                <div class="navbar-end">
+                </div>
+            </div>
         </nav>
+
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+
+        <footer class="footer">
+            <div class="container">
+                <div class="content has-text-centered">
+                    <p>
+                        <strong>That guy's website</strong> by <a href="https://https://www.linkedin.com/in/adrien-boutigny/">Adrien Boutigny</a>. The source code is licenced something something and is available on <a href="https://github.com/hissalht/blog-project">GitHub</a>.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="{{ asset('build/app.js') }}"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
     </body>
 </html>
