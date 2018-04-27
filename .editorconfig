@@ -13,6 +13,6 @@ indent_style = space
 indent_size = 4
 indent_style = space
 
-[*.{html,html.twig,css,js}]
+[*.{html,html.twig,css,sass,js}]
 indent_size = 2
 indent_style = space

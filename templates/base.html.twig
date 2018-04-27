@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
 
 <head>
   <meta charset="UTF-8">
@@ -19,7 +19,7 @@
     </div>
   </section>
 
-  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-primary is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="{{ path('blog_list') }}">Home</a>
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
@@ -30,7 +30,13 @@
     </div>
     <div class="navbar-menu" id="navMenu">
       <div class="navbar-start">
-        <a class="navbar-item" href="{{ path('blog_list') }}">Blog posts</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Blog</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{ path('blog_list') }}">Browse</a>
+            <a class="navbar-item" href="{{ path('blog_new') }}">New</a>
+          </div>
+        </div>
         <a class="navbar-item" href="{{ path('user_list') }}">User list</a>
       </div>
       <div class="navbar-end">
@@ -38,7 +44,11 @@
     </div>
   </nav>
 
-  {% block body %}{% endblock %}
+  <section class="section">
+    {% block body %}
+
+    {% endblock body %}
+  </section>
 
 
   <footer class="footer">
