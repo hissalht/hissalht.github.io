@@ -17,6 +17,7 @@ security:
             form_login:
                 login_path: user_login
                 check_path: user_login
+                csrf_token_generator: security.csrf.token_manager
             logout:
                 path: /user/logout
                 target: blog_list
