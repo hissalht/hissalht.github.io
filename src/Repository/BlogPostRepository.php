@@ -19,14 +19,50 @@ class BlogPostRepository extends ServiceEntityRepository
         parent::__construct($registry, BlogPost::class);
     }
 
+    public function getFirstPost()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /**
      * @return BlogPost Returns the most recent blog post.
      */
-    public function findLastPublished()
+    public function getLastPost()
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.publication_date', 'DESC')
             ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * @return BlogPost Returns the previous post by id.
+     */
+    public function getPreviousPost(BlogPost $actual)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :target_id')
+            ->setParameter('target_id', $actual->getId() - 1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * @return BlogPost Returns the next post by id.
+     */
+    public function getNextPost(BlogPost $actual)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id = :target_id')
+            ->setParameter('target_id', $actual->getId() + 1)
             ->getQuery()
             ->getOneOrNullResult()
         ;

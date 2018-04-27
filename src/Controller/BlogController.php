@@ -72,7 +72,7 @@ class BlogController extends Controller
     public function getLastPost()
     {
         $repo = $this->getDoctrine()->getRepository(BlogPost::class);
-        $p = $repo->findLastPublished();
+        $p = $repo->getLastPost();
 
         return $this->redirectToRoute('blog_show', [
             'id' => $p->getId()
@@ -85,8 +85,19 @@ class BlogController extends Controller
      */
     public function showPost(BlogPost $blogPost)
     {
+        $repo = $this->getDoctrine()->getRepository(BlogPost::class);
+        $previous = $repo->getPreviousPost($blogPost);
+        $next = $repo->getNextPost($blogPost);
+        $last = $repo->getLastPost();
+        $first = $repo->getFirstPost();
+
+
         return $this->render('blog/show.html.twig', [
-            'post' => $blogPost
+            'post' => $blogPost,
+            'previous' => $previous,
+            'next' => $next,
+            'last' => $last,
+            'first' => $first,
         ]);
     }
 }

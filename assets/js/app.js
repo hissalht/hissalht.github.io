@@ -6,8 +6,8 @@ $.when($.ready).then(function() {
 
     // navigation burger activation
     $('.navbar-burger').on('click', function() {
-        isActive = $(this).hasClass('is-active');
-        menuId = '#' + $(this).attr('data-target')
+        let isActive = $(this).hasClass('is-active');
+        let menuId = '#' + $(this).attr('data-target')
 
         if(isActive) {
             $(this).removeClass('is-active');

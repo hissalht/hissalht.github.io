@@ -1,5 +1,44 @@
 {% extends 'base.html.twig' %} {% block body %}
 
+{% block pagination %}
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    <a class="pagination-previous"
+        {% if previous is not null %}
+        href="{{ path('blog_show', {'id':previous.id}) }}"
+        {% else %}
+        disabled
+        {% endif %}
+    >Previous</a>
+    <a class="pagination-next"
+        {% if next is not null %}
+          href="{{ path('blog_show', {'id':next.id}) }}"
+        {% else %}
+          disabled
+        {% endif %}
+    >Next</a>
+
+    <ul class="pagination-list">
+        {% if previous is not null %}
+          {% if previous != first %}
+            <li><a class="pagination-link" href="{{ path('blog_show', {'id': 1}) }}" aria-label="Goto blog post 1">1</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+          {% endif %}
+          <li><a class="pagination-link" href="{{ path('blog_show', {'id':previous.id}) }}" aria-label="Goto blog post {{ previous.id }}">{{ previous.id }}</a></li>
+        {% endif %}
+
+        <li><a class="pagination-link is-current" aria-label="Page {{ post.id }}" aria-current="page">{{ post.id }}</a></li>
+
+        {% if next is not null %}
+          <li><a class="pagination-link" href="{{ path('blog_show', {'id':next.id}) }}" aria-label="Goto blog post {{ next.id }}">{{ next.id }}</a></li>
+          {% if next != last %}
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link" href="{{ path('blog_show', {'id':last.id}) }}" aria-label="Goto blog post {{ last.id }}">{{ last.id }}</a></li>
+          {% endif %}
+        {% endif %}
+    </ul>
+  </nav>
+{% endblock pagination %}
+
 <article>
     <h3 class="title">{{ post.title }}</h3>
     <h4 class="subtitle">
@@ -14,5 +53,7 @@
       {{ post.content | striptags(post_authorized_tags) | raw }}
     </div>
 </article>
+
+{{ block('pagination') }}
 
 {% endblock %}

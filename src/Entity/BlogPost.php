@@ -106,4 +106,5 @@ class BlogPost
 
         return $this;
     }
+
 }
