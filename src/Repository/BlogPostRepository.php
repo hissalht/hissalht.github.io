@@ -19,6 +19,19 @@ class BlogPostRepository extends ServiceEntityRepository
         parent::__construct($registry, BlogPost::class);
     }
 
+    /**
+     * @return BlogPost Returns the most recent blog post.
+     */
+    public function findLastPublished()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.publication_date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return BlogPost[] Returns an array of BlogPost objects
 //     */

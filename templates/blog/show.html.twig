@@ -1,29 +1,18 @@
 {% extends 'base.html.twig' %} {% block body %}
 
-
 <article>
     <h3 class="title">{{ post.title }}</h3>
-    <h4 class="subtitle">Adrien Boutigny</h4>
+    <h4 class="subtitle">
+      by
+      <a href="{{ path('user_show', {'id': post.author.id}) }}">
+        {{ post.author.username }}
+      </a>
+      the {{ post.publicationDate | localizeddate('medium', 'none') }}
+      at {{ post.publicationDate | localizeddate('none', 'short') }}
+    </h4>
     <div class="box content">
       {{ post.content | striptags(post_authorized_tags) | raw }}
     </div>
 </article>
-
-{# <p>ID : {{ post.id }}</p>
-
-<p>Author :
-  <a href="{{ path('user_show', {'id':post.author.id}) }}">{{ post.author.username }}</a>
-</p>
-
-<p>Publication date : {{ post.publicationDate | localizeddate('medium', 'medium') }}</p>
-
-<p>Last edit date : {{ post.editDate | localizeddate('medium', 'medium') }}</p>
-
-<h2>{{ post.title }}</h2>
-
-<div class="blogpost-content">
-  {{ post.content | striptags(post_authorized_tags) | raw }}
-</div> #}
-
 
 {% endblock %}

@@ -66,6 +66,21 @@ class BlogController extends Controller
     }
 
     /**
+     * Redirect to the the most recently posted blog post.
+     * @Route("/blog/last", name="blog_last")
+     */
+    public function getLastPost()
+    {
+        $repo = $this->getDoctrine()->getRepository(BlogPost::class);
+        $p = $repo->findLastPublished();
+
+        return $this->redirectToRoute('blog_show', [
+            'id' => $p->getId()
+        ]);
+
+    }
+
+    /**
      * @Route("/blog/{id}", name="blog_show", requirements={"id"="\d+"})
      */
     public function showPost(BlogPost $blogPost)
@@ -73,22 +88,5 @@ class BlogController extends Controller
         return $this->render('blog/show.html.twig', [
             'post' => $blogPost
         ]);
-    }
-
-    /**
-     * @Route("/debug", name="blog_gen_user")
-     */
-    public function debug()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $user = new User();
-        $user->setName("root");
-        $user->setStatus("debug");
-        
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        return new Response("Saved new user with id " . $user->getId());
     }
 }
