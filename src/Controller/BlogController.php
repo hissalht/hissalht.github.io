@@ -42,7 +42,7 @@ class BlogController extends Controller
         if($form->isSubmitted() && $form->isValid()) {
             // on a valid POST request
             $entityManager = $this->getDoctrine()->getManager();
-            $user = $this->getDoctrine()->getRepository(User::class)->find(1);
+            $user = $this->getUser();
 
             $post = $form->getData();
             $post->setPublicationDate(new \DateTimeImmutable("now"));

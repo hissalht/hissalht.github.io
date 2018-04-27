@@ -13,8 +13,13 @@ security:
             security: false
         main:
             anonymous: true
-            http_basic: ~
             provider: db_provider
+            form_login:
+                login_path: user_login
+                check_path: user_login
+            logout:
+                path: /user/logout
+                target: blog_list
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
