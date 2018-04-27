@@ -13,12 +13,14 @@ use App\Entity\BlogPost;
 use App\Entity\User;
 use App\Form\BlogPostType;
 
-
+/**
+ * @Route("/blog")
+ */
 class BlogController extends Controller
 {
 
     /**
-     * @Route("/blog", name="blog_list")
+     * @Route("/", name="blog_list")
      */
     public function index()
     {
@@ -30,7 +32,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/new", name="blog_new")
+     * @Route("/new", name="blog_new")
      * @Security("has_role('ROLE_USER')")
      */
     public function post(Request $request, LoggerInterface $logger)
@@ -67,7 +69,7 @@ class BlogController extends Controller
 
     /**
      * Redirect to the the most recently posted blog post.
-     * @Route("/blog/last", name="blog_last")
+     * @Route("/last", name="blog_last")
      */
     public function getLastPost()
     {
@@ -81,7 +83,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/blog/{id}", name="blog_show", requirements={"id"="\d+"})
+     * @Route("/{id}", name="blog_show", requirements={"id"="\d+"})
      */
     public function showPost(BlogPost $blogPost)
     {

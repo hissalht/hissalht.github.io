@@ -40,7 +40,12 @@
 {% endblock pagination %}
 
 <article>
-    <h3 class="title">{{ post.title }}</h3>
+    <h3 class="title">
+      {{ post.title }}
+      {% for tag in post.tags %}
+        <span class="tag is-primary">{{ tag }}</span>
+      {% endfor %}
+    </h3>
     <h4 class="subtitle">
       by
       <a href="{{ path('user_show', {'id': post.author.id}) }}">
@@ -48,6 +53,7 @@
       </a>
       the {{ post.publicationDate | localizeddate('medium', 'none') }}
       at {{ post.publicationDate | localizeddate('none', 'short') }}
+
     </h4>
     <div class="box content">
       {{ post.content | striptags(post_authorized_tags) | raw }}
