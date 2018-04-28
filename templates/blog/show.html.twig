@@ -53,8 +53,10 @@
       </a>
       the {{ post.publicationDate | localizeddate('medium', 'none') }}
       at {{ post.publicationDate | localizeddate('none', 'short') }}
-
     </h4>
+    {% if app.user == post.author %}
+      <a class="button" href="{{ path('blog_edit', {'id': post.id}) }}">Edit</a>
+    {% endif %}
     <div class="box content">
       {{ post.content | striptags(post_authorized_tags) | raw }}
     </div>

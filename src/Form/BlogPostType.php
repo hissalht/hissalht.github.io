@@ -26,7 +26,7 @@ class BlogPostType extends AbstractType
             ->addModelTransformer(new CallbackTransformer(
                 function ($tagsAsArray) {
                     if($tagsAsArray){
-                        return implode('. ', $tagsAsArray);
+                        return implode(', ', $tagsAsArray);
                     }
                     return '';
                 },
