@@ -42,20 +42,27 @@
 <article>
     <h3 class="title">
       {{ post.title }}
-      {% for tag in post.tags %}
-        <span class="tag is-primary">{{ tag }}</span>
-      {% endfor %}
+
     </h3>
     <h4 class="subtitle">
       by
       <a href="{{ path('user_show', {'id': post.author.id}) }}">
         {{ post.author.username }}
       </a>
-      the {{ post.publicationDate | localizeddate('medium', 'none') }}
+      on {{ post.publicationDate | localizeddate('medium', 'none') }}
       at {{ post.publicationDate | localizeddate('none', 'short') }}
+      {% if post.publicationDate != post.editDate %}
+        , last edited on {{ post.editDate | localizeddate('medium', 'none') }}
+        at {{ post.editDate | localizeddate('none', 'short') }}
+      {% endif %}
     </h4>
+    <div class="blogpost-tags">
+      {% for tag in post.tags %}
+        <span class="tag is-primary">{{ tag }}</span>
+      {% endfor %}
+    </div>
     {% if app.user == post.author %}
-      <a class="button" href="{{ path('blog_edit', {'id': post.id}) }}">Edit</a>
+      <a class="button blogpost-edit" href="{{ path('blog_edit', {'id': post.id}) }}">Edit</a>
     {% endif %}
     <div class="box content">
       {{ post.content | striptags(post_authorized_tags) | raw }}
