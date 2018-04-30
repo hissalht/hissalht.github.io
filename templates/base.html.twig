@@ -38,7 +38,25 @@
             <a class="navbar-item" href="{{ path('blog_new') }}">New</a>
           </div>
         </div>
-        <a class="navbar-item" href="{{ path('user_list') }}">User list</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+          {% if app.user %}
+            {{ app.user.username }}
+          {% else %}
+            User
+          {% endif %}
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{ path('user_list') }}">User List</a>
+            {% if app.user %}
+              <a class="navbar-item" href="{{ path('user_show', {'id':app.user.id}) }}">Your accound</a>
+              <a class="navbar-item" href="{{ path('logout') }}">Logout</a>
+            {% else %}
+              <a class="navbar-item" href="{{ path('user_login') }}">Login</a>
+              <a class="navbar-item" href="#">Sign in</a>
+            {% endif %}
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
       </div>
