@@ -2,6 +2,10 @@ require('../css/app.sass');
 
 import 'prismjs';
 
+import '../../node_modules/bulma-tagsinput/dist/bulma-tagsinput.js'
+//TODO use minified version only on dist
+//import 'bulma-tagsinput';
+
 $.when($.ready).then(function() {
 
     // navigation burger activation
