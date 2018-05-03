@@ -2,25 +2,48 @@
 
 {% block body %}
 
-<h3>{{ user.username }}</h3>
-<p>ID : {{ user.id }}</p>
-<h4>Roles :</h4>
-<ul>
-  {% for role in user.roles %}
-  <li>{{ role }}</li>
-  {% endfor %}
-</ul>
+
+<h3 style="display: inline-block;" class="title is-3">{{ user.username }}</h4>
+<span style="display: inline-block;" >#{{ user.id }}</span>
 
 
-<h4>Posts</h4>
-<ul>
-  {% for post in user.posts %}
-  <li>
-    <a href="{{ path('blog_show', {'id': post.id}) }}">
-      {{ post.title }}
-    </a>
-  </li>
-  {% endfor %}
-</ul>
+<div class="columns">
+  <div class="column">
+      <h4 class="title is-4">Role(s) :</h4>
+      <ul>
+        {% for role in user.roles %}
+        <li><span class="tag">{{ role }}</span></li>
+        {% endfor %}
+      </ul>
+  </div>
+
+  <div class="column">
+      <h4 class="title is-4">Post(s)</h4>
+      {% if user.posts is empty %}
+        <p>
+        {% if app.user == user %}
+          You did not make any post yet.
+        {% else %}
+          This user did not make any post yet.
+        {% endif %}
+        </p>
+      {% else %}
+        <ul>
+          {% for post in user.posts %}
+          <li>
+            <a href="{{ path('blog_show', {'id': post.id}) }}">
+              <strong>{{post.title}}</strong>
+              <small>{{ post.publicationDate | localizeddate('medium', 'none') }}</small>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+</div>
+
+
+
+
 
 {% endblock %}
