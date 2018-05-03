@@ -87,4 +87,15 @@ class UserController extends Controller
         return isnull($u);
     }
 
+    /**
+     * @Route("/user/profile", name="user_profile")
+     */
+    public function getCurrentUserPage()
+    {
+        $user = $this->getUser();
+        return $this->render('user/show.html.twig', [
+            'user' => $user
+        ]);
+    }
+
 }
