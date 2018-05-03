@@ -49,4 +49,22 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/user/signup", name="user_signup")
+     */
+    public function newUser(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+        } else {
+            return $this->render('user/signup.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
+    }
+
 }
