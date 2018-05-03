@@ -2,7 +2,8 @@
 require('../css/app.sass');
 
 import 'prismjs';
-import '../../node_modules/bulma-tagsinput/dist/bulma-tagsinput.js'
+
+import '../../node_modules/bulma-extensions/bulma-tagsinput/dist/bulma-tagsinput.js'
 
 $.when($.ready).then(function() {
 
