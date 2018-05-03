@@ -6,6 +6,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -89,6 +90,7 @@ class UserController extends Controller
 
     /**
      * @Route("/user/profile", name="user_profile")
+     * @Security("has_role('ROLE_USER')")
      */
     public function getCurrentUserPage()
     {
