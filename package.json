@@ -1,6 +1,7 @@
 {
     "devDependencies": {
         "@symfony/webpack-encore": "^0.19.0",
+        "babel-preset-react": "^6.24.1",
         "node-sass": "^4.9.0",
         "sass-loader": "^7.0.1",
         "webpack-notifier": "^1.6.0"
@@ -18,6 +19,8 @@
         "bulma-extensions": "^1.0.14",
         "font-awesome": "^4.7.0",
         "jquery": "^3.3.1",
-        "prismjs": "^1.14.0"
+        "prismjs": "^1.14.0",
+        "react": "^16.3.2",
+        "react-dom": "^16.3.2"
     }
 }

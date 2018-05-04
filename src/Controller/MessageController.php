@@ -15,8 +15,6 @@ class MessageController extends Controller
      */
     public function index()
     {
-        return $this->render('message/index.html.twig', [
-            'controller_name' => 'MessageController',
-        ]);
+        return $this->render('message/index.html.twig');
     }
 }
