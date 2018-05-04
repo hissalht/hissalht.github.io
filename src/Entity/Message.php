@@ -28,6 +28,11 @@ class Message
      */
     private $sender;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $content;
+
     public function getId()
     {
         return $this->id;
@@ -53,6 +58,18 @@ class Message
     public function setSender(?User $sender): self
     {
         $this->sender = $sender;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }
