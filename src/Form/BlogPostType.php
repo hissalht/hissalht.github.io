@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use App\Form\Type\TagsType;
+
 
 class BlogPostType extends AbstractType
 {
@@ -18,7 +20,15 @@ class BlogPostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('tags', TextType::class, array('required' => false))
+            /*
+            ->add('tags', TextType::class, array(
+                'required' => false,
+                'attr' => array('type' => 'tags'),
+            ))
+             */
+            ->add('tags', TagsType::class, array(
+                'required' => false
+            ))
             ->add('save', SubmitType::class, array('label' => 'Save'))
         ;
 
@@ -26,12 +36,12 @@ class BlogPostType extends AbstractType
             ->addModelTransformer(new CallbackTransformer(
                 function ($tagsAsArray) {
                     if($tagsAsArray){
-                        return implode('. ', $tagsAsArray);
+                        return implode(',', $tagsAsArray);
                     }
                     return '';
                 },
                 function ($tagsAsString) {
-                    return explode(', ', $tagsAsString);
+                    return explode(',', $tagsAsString);
                 }
             ))
         ;

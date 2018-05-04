@@ -102,4 +102,29 @@ class BlogController extends Controller
             'first' => $first,
         ]);
     }
+
+    /**
+     * @Route("/{id}/edit", name="blog_edit", requirements={"id"="\d+"})
+     */
+    public function editPost(BlogPost $blogPost, Request $request)
+    {
+        $form = $this->createForm(BlogPostType::class, $blogPost);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $blogPost->setEditDate(new \DateTime("now"));
+
+            $entityManager->persist($blogPost);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('blog_show', [
+                'id' => $blogPost->getId()
+            ]);
+        } else {
+            return $this->render('blog/edit.html.twig', array(
+                'form' => $form->createView()
+            ));
+        }
+    }
 }

@@ -38,14 +38,32 @@
             <a class="navbar-item" href="{{ path('blog_new') }}">New</a>
           </div>
         </div>
-        <a class="navbar-item" href="{{ path('user_list') }}">User list</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+          {% if app.user %}
+            {{ app.user.username }}
+          {% else %}
+            User
+          {% endif %}
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{ path('user_list') }}">User List</a>
+            {% if app.user %}
+              <a class="navbar-item" href="{{ path('user_show', {'id':app.user.id}) }}">Your accound</a>
+              <a class="navbar-item" href="{{ path('logout') }}">Logout</a>
+            {% else %}
+              <a class="navbar-item" href="{{ path('user_login') }}">Login</a>
+              <a class="navbar-item" href="{{ path('user_signup') }}">Sign up</a>
+            {% endif %}
+          </div>
+        </div>
       </div>
       <div class="navbar-end">
       </div>
     </div>
   </nav>
 
-  <section class="section">
+  <section class="section content-root center">
     {% block body %}
 
     {% endblock body %}
@@ -65,7 +83,6 @@
   </footer>
 
   <script src="{{ asset('build/app.js') }}"></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"></script>
 </body>
 
 </html>

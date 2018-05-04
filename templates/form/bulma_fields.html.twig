@@ -51,3 +51,8 @@
   {% set attr = attr|merge({'class': (attr.class|default('') ~ ' radio') | trim }) %}
   {{ parent() }}
 {% endblock radio_widget %}
+
+{% block tags_widget %}
+  {% set type = 'tags' %}
+  {{ block('form_widget_simple') }}
+{% endblock tags_widget %}

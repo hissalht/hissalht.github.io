@@ -6,10 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="app_users")
+ * UniqueEntity("username")
+ * UniqueEntity("email")
  */
 class User implements UserInterface, \Serializable
 {
@@ -22,6 +28,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\Regex("/^[A-Za-z0-9]{3,}$/i")
      */
     private $username;
 
@@ -32,6 +39,9 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=254, unique=true)
+     * @Assert\Email(
+     *     message="'{{ value }}' is not a valid email adress."
+     * )
      */
     private $email;
 
