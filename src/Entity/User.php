@@ -61,21 +61,21 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="receiver", orphanRemoval=true)
-     */
-    private $receivedMessages;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="sender", orphanRemoval=true)
      */
     private $sentMessages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Conversation", mappedBy="participants")
+     */
+    private $conversations;
 
     public function __construct()
     {
         $this->isActive = true;
         $this->posts = new ArrayCollection();
-        $this->receivedMessages = new ArrayCollection();
         $this->sentMessages = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
     public function getId()
@@ -192,38 +192,6 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-
-    /**
-     * @return Collection|Message[]
-     */
-    public function getReceivedMessages(): Collection
-    {
-        return $this->receivedMessages;
-    }
-
-    public function addReceivedMessage(Message $receivedMessage): self
-    {
-        if (!$this->receivedMessages->contains($receivedMessage)) {
-            $this->receivedMessages[] = $receivedMessage;
-            $receivedMessage->setReceiver($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReceivedMessage(Message $receivedMessage): self
-    {
-        if ($this->receivedMessages->contains($receivedMessage)) {
-            $this->receivedMessages->removeElement($receivedMessage);
-            // set the owning side to null (unless already changed)
-            if ($receivedMessage->getReceiver() === $this) {
-                $receivedMessage->setReceiver(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection|Message[]
      */
@@ -250,6 +218,34 @@ class User implements UserInterface, \Serializable
             if ($sentMessage->getSender() === $this) {
                 $sentMessage->setSender(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->contains($conversation)) {
+            $this->conversations->removeElement($conversation);
+            $conversation->removeParticipant($this);
         }
 
         return $this;
