@@ -8,6 +8,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use App\Entity\User;
 use App\Entity\BlogPost;
+use App\Entity\Message;
+use App\Entity\Conversation;
 
 class AppFixtures extends Fixture
 {
@@ -33,6 +35,9 @@ class AppFixtures extends Fixture
         $adminUser = $this->createUser('admin', 'admin@example.co', 'adminpassword', array('ROLE_USER', 'ROLE_ADMIN'));
         $manager->persist($adminUser);
 
+        $bobUser = $this->createUser('bob', 'bob@exmaple.co', 'bobpassword', array('ROLE_USER'));
+        $manager->persist($bobUser);
+
         $post1 = $this->createBlogPost('The good ol\' lorem ipsum', ' <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam ultrices mauris id pretium. Ut pellentesque lectus velit. Nulla laoreet faucibus arcu. Vivamus dolor dui, interdum sed pretium ac, ultricies quis ligula. Etiam orci nibh, semper nec dictum at, varius nec justo. Nunc tempor id libero a gravida. Phasellus tortor mauris, accumsan porta lobortis eu, laoreet sit amet turpis. Nam gravida mattis dapibus. Nunc sagittis, ex eu consectetur egestas, lorem metus vehicula ipsum, in feugiat magna arcu in odio. Aenean est ante, congue at bibendum at, euismod luctus quam. Curabitur vel purus at ante aliquet tincidunt volutpat ut ex. Nam ultrices nisi ut nisl congue, quis tincidunt augue iaculis.
         </p>
@@ -56,6 +61,19 @@ class AppFixtures extends Fixture
         $manager->persist($post2);
         $manager->persist($post3);
         $manager->persist($post4);
+
+        $conv1 = $this->createConversation(array($user, $adminUser));
+        $conv2 = $this->createConversation(array($user, $bobUser));
+        $manager->persist($conv1);
+        $manager->persist($conv2);
+
+        $m1 = $this->createMessage($user, $conv1, 'Hi whassup ?');
+        $m2 = $this->createMessage($adminUser, $conv1, 'Not much my guy');
+        $m3 = $this->createMessage($user, $conv2, 'Hello is someone here ?');
+
+        $manager->persist($m1);
+        $manager->persist($m2);
+        $manager->persist($m3);
     }
 
     private function createUser($username, $email, $password, $roles)
@@ -79,6 +97,24 @@ class AppFixtures extends Fixture
         $post->setEditDate(new \Datetime('now'));
         $post->setTags($tags);
         return $post;
+    }
+
+    private function createConversation($participants)
+    {
+        $conv = new Conversation();
+        foreach($participants as $user) {
+            $conv->addParticipant($user);
+        }
+        return $conv;
+    }
+
+    private function createMessage(User $sender, Conversation $destination, $content)
+    {
+        $msg = new Message();
+        $msg->setSender($sender);
+        $msg->setDestination($destination);
+        $msg->setContent($content);
+        return $msg;
     }
 
 }
