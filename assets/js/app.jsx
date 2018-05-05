@@ -5,7 +5,7 @@ import 'prismjs';
 
 import '../../node_modules/bulma-extensions/bulma-tagsinput/dist/bulma-tagsinput.js'
 
-import './message';
+import './message-app/MessageApplication';
 
 
 $.when($.ready).then(function() {
