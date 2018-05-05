@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
 
+
+{% block stylesheet %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('build/MessageApplication.css') }}">
+{% endblock stylesheet %}
+
+
 {% block body %}
+  <div id="message-app-root"></div>
+{% endblock %}
 
-<div id="message-app-root"></div>
-
+{% block javascript %}
+  {{ parent() }}
+  <script src="{{ asset('build/MessageApplication.js') }}"></script>
 {% endblock %}
