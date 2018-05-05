@@ -52,6 +52,7 @@
             <a class="navbar-item" href="{{ path('user_list') }}">User List</a>
             {% if app.user %}
               <a class="navbar-item" href="{{ path('user_show', {'id':app.user.id}) }}">Your accound</a>
+              <a class="navbar-item" href="{{ path('message_app') }}">Message</a>
               <a class="navbar-item" href="{{ path('logout') }}">Logout</a>
             {% else %}
               <a class="navbar-item" href="{{ path('user_login') }}">Login</a>

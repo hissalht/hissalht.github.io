@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class MessageController extends Controller
 {
     /**
-     * @Route("/", name="message")
+     * @Route("/", name="message_app")
      */
     public function index()
     {
