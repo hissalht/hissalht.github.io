@@ -9,7 +9,7 @@ const m3 = {id: 3, sender: 'Bob', destination: 1, content: 'yo ;)'};
 const m4 = {id: 4, sender: 'John', destination: 2, content: 'SDKLfjsldkjf '};
 const m5 = {id: 5, sender: 'Adrien', destination: 2, content: 'SDFKJ DSFJ SDF'};
 const m6 = {id: 6, sender: 'John', destination: 2, content: 'sdf sdfbbvcb c'};
-const mockConversationData = [{
+let mockConversationData = [{
   id: 1,
   participants: ['Adrien', 'Bob'],
   messages: [m1, m2, m3]
@@ -68,18 +68,38 @@ class Messages extends React.Component {
 class MessageInput extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    this.props.onSubmit(this.state.value);
+    this.setState({value: ''});
+    e.preventDefault();
+  }
+
+  handleChange(e) {
+    this.setState({value: e.target.value});
   }
 
   render() {
     return (
-      <div className="field has-addons msg-message-input">
-        <div className="control">
-          <input className="input" type="text" placeholder="Send a message"/>
+      <form onSubmit={this.handleSubmit}>
+        <div className="field has-addons msg-message-input">
+          <div className="control">
+            <input className="input"
+                   onChange={this.handleChange}
+                   type="text"
+                   placeholder="Send a message"
+                   value={this.state.value}
+            />
+          </div>
+          <div className="control">
+            <button className="button">Send</button>
+          </div>
         </div>
-        <div className="control">
-          <button className="button">Send</button>
-        </div>
-      </div>
+      </form>
     );
   }
 }
@@ -87,13 +107,19 @@ class MessageInput extends React.Component {
 class Conversation extends React.Component {
   constructor (props) {
     super(props);
+    this.submitMessage = this.submitMessage.bind(this);
+  }
+
+  submitMessage(message) {
+    console.log('submiting message: ' + message);
+    this.props.onMessageSubmit(message);
   }
 
   render() {
     return (
       <div className="msg-conversation">
         <Messages messages={this.props.messages} />
-        <MessageInput />
+        <MessageInput onSubmit={this.submitMessage}/>
       </div>
     );
   }
@@ -159,10 +185,34 @@ class MesssageApplication extends React.Component {
       activeConversationId: 1
     };
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
   }
 
   handleTabChange(tabId) {
     this.setState({activeConversationId: tabId});
+  }
+
+  handleMessageSubmit(message) {
+    const messageObject = {
+      destination: this.state.activeConversationId,
+      sender: this.state.currentUser,
+      content: message
+    };
+    console.log('sending ...', messageObject);
+    //TODO send the message to api
+    // on success
+    const messageFromApi = {
+      id: Object.keys(this.state.conversations[messageObject.destination].messages).length * 6,
+      destination: messageObject.destination,
+      sender: messageObject.sender,
+      content: messageObject.content
+    };
+
+    this.setState((prevState, props) => {
+      let convs = prevState.conversations;
+      convs[messageFromApi.destination].messages.push(messageFromApi);
+      return {conversations: convs};
+    });
   }
 
   render() {
@@ -175,7 +225,7 @@ class MesssageApplication extends React.Component {
           <ConversationTabs conversations={this.state.conversations} currentUser={currentUser} onTabChange={this.handleTabChange} currentTabId={this.state.activeConversationId} />
         </div>
         <div className="column">
-          <Conversation messages={messages} />
+          <Conversation messages={messages} onMessageSubmit={this.handleMessageSubmit} />
         </div>
       </div>
     );
