@@ -16,8 +16,11 @@ const mockConversationData = [{
 }, {
   id: 2,
   participants: ['Adrien', 'John'],
-  messagse: [m4, m5, m6]
-}]
+  messages: [m4, m5, m6]
+}].reduce((acc, cur) => {
+  acc[cur.id] = cur;
+  return acc;
+}, {});
 const currentUser = 'Adrien';
 
 
@@ -46,11 +49,17 @@ class Messages extends React.Component {
   }
 
   render() {
+    const element = this.props.messages ?
+      this.props.messages.map((msg) => (
+        <Message message={msg} key={msg.id.toString()}/>
+      ))
+    :
+      "Select a conversation or start a new one."
+    ;
+
     return (
       <div className="msg-messages">
-        {this.props.messages.map((msg) => (
-          <Message message={msg} key={msg.id.toString()}/>
-        ))}
+        {element}
       </div>
     );
   }
@@ -91,11 +100,27 @@ class Conversation extends React.Component {
 }
 
 class ConversationTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  handleTabChange(e) {
+    console.log('switching to conv ' + e.target.value);
+    this.props.onTabChange(e.target.value);
+  }
+
   render() {
     return (
       <div className="msg-conversation-tabs">
-        {this.props.conversations.map(conversation => (
-          <ConversationTab conversation={conversation} currentUser={this.props.currentUser} key={conversation.id} />
+        {Object.keys(this.props.conversations).map((id) => (
+          <ConversationTab conversation={this.props.conversations[id]}
+            currentUser={this.props.currentUser}
+            key={id}
+            value={id}
+            handleClick={this.handleTabChange}
+            isActive={id == this.props.currentTabId}
+          />
         ))}
       </div>
     );
@@ -103,11 +128,18 @@ class ConversationTabs extends React.Component {
 }
 
 class ConversationTab extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
   render() {
-    const buttonText = this.props.conversation.participants.filter(name => name != this.props.currentUser)
+    const buttonText = this.props.conversation.participants.filter(name => name != this.props.currentUser);
+    let classes = 'button msg-conversation-tab';
+    if(this.props.isActive) classes += ' is-primary';
+
     return (
       <div>
-        <button className="button msg-conversation-tab">
+        <button className={classes} onClick={this.props.handleClick} value={this.props.conversation.id}>
           {buttonText}
         </button>
       </div>
@@ -115,15 +147,35 @@ class ConversationTab extends React.Component {
   }
 }
 
+/**
+ * Main app component.
+ */
 class MesssageApplication extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      conversations: mockConversationData,
+      currentUser: currentUser,
+      activeConversationId: 1
+    };
+    this.handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  handleTabChange(tabId) {
+    this.setState({activeConversationId: tabId});
+  }
+
   render() {
+    const activeConversation = this.state.conversations[this.state.activeConversationId];
+    const messages = activeConversation ? activeConversation.messages : null;
+
     return (
       <div className="columns">
         <div className="column is-narrow">
-          <ConversationTabs conversations={mockConversationData} currentUser={currentUser}/>
+          <ConversationTabs conversations={this.state.conversations} currentUser={currentUser} onTabChange={this.handleTabChange} currentTabId={this.state.activeConversationId} />
         </div>
         <div className="column">
-          <Conversation messages={mockConversationData[0].messages} />
+          <Conversation messages={messages} />
         </div>
       </div>
     );
