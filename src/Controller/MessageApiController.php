@@ -52,14 +52,14 @@ class MessageApiController extends Controller
         $messageContent = $request->request->get('content');
 
         $convRepo = $this->getDoctrine()->getRepository(Conversation::class);
-        $conv = $convRepo->find(destinationId);
+        $conv = $convRepo->find($destinationId);
 
         if(is_null($conv)){
             // unknown conversation
             throw new BadRequestHttpException('Conversation ' .$destinationId. ' does not exist.');
         }
 
-        if($conv->getParticipants()->contains($user)){
+        if(!$conv->getParticipants()->contains($user)){
             // user is not part of the conversation
             throw new AccessDeniedHttpException('User ' .$user->getUserName(). ' is not part of conversation ' .$conv->getId(). '.');
         }
@@ -71,6 +71,8 @@ class MessageApiController extends Controller
 
         $entityManager->persist($message);
         $entityManager->flush();
+
+        return new Response($message->getId());
     }
 
     /**
