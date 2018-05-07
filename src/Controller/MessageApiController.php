@@ -47,9 +47,17 @@ class MessageApiController extends Controller
     public function postMessage(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $messageArray = json_decode($request->getContent(), true);
+
+        if(!(array_key_exists('destination', $messageArray)
+            && array_key_exists('content', $messageArray))
+        ){
+            throw new BadRequestHttpException('destination and content are required');
+        }
+
         $user = $this->getUser();
-        $destinationId = (int) $request->request->get('destination');
-        $messageContent = $request->request->get('content');
+        $destinationId = (int) $messageArray['destination'];
+        $messageContent = $messageArray['content'];
 
         $convRepo = $this->getDoctrine()->getRepository(Conversation::class);
         $conv = $convRepo->find($destinationId);
