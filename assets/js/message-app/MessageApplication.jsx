@@ -3,27 +3,14 @@ import ReactDOM from 'react-dom';
 
 require('./message-app.sass');
 
-const m1 = {id: 1, sender: 'Adrien', destination: 1, content: 'hé coucou'};
-const m2 = {id: 2, sender: 'Adrien', destination: 1, content: '?? allo ?'};
-const m3 = {id: 3, sender: 'Bob', destination: 1, content: 'yo ;)'};
-const m4 = {id: 4, sender: 'John', destination: 2, content: 'SDKLfjsldkjf '};
-const m5 = {id: 5, sender: 'Adrien', destination: 2, content: 'SDFKJ DSFJ SDF'};
-const m6 = {id: 6, sender: 'John', destination: 2, content: 'sdf sdfbbvcb c'};
-let mockConversationData = [{
-  id: 1,
-  participants: ['Adrien', 'Bob'],
-  messages: [m1, m2, m3]
-}, {
-  id: 2,
-  participants: ['Adrien', 'John'],
-  messages: [m4, m5, m6]
-}].reduce((acc, cur) => {
-  acc[cur.id] = cur;
-  return acc;
-}, {});
-const currentUser = 'Adrien';
+import * as debug from './debug';
+
+console.log(debug.generateMessageId('mlsdkfjj'));
 
 
+/**
+ * Message component. Display the message author and its content.
+ */
 class Message extends React.Component {
   constructor (props) {
     super(props);
@@ -43,6 +30,9 @@ class Message extends React.Component {
   }
 }
 
+/**
+ * Component listing messages.
+ */
 class Messages extends React.Component {
   constructor (props) {
     super(props);
@@ -65,6 +55,9 @@ class Messages extends React.Component {
   }
 }
 
+/**
+ * Input component.
+ */
 class MessageInput extends React.Component {
   constructor (props) {
     super(props);
@@ -104,6 +97,9 @@ class MessageInput extends React.Component {
   }
 }
 
+/**
+ * Displays the selected conversation.
+ */
 class Conversation extends React.Component {
   constructor (props) {
     super(props);
@@ -125,6 +121,9 @@ class Conversation extends React.Component {
   }
 }
 
+/**
+ * List the available conversations.
+ */
 class ConversationTabs extends React.Component {
   constructor(props) {
     super(props);
@@ -153,6 +152,10 @@ class ConversationTabs extends React.Component {
   }
 }
 
+
+/**
+ * Displays a tab for each conversation available.
+ */
 class ConversationTab extends React.Component {
   constructor(props){
     super(props);
@@ -180,8 +183,8 @@ class MesssageApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversations: mockConversationData,
-      currentUser: currentUser,
+      conversations: debug.getMockData(),
+      currentUser: debug.getCurrentUser(),
       activeConversationId: 1
     };
     this.handleTabChange = this.handleTabChange.bind(this);
@@ -195,7 +198,6 @@ class MesssageApplication extends React.Component {
   handleMessageSubmit(message) {
     const messageObject = {
       destination: this.state.activeConversationId,
-      sender: this.state.currentUser,
       content: message
     };
     console.log('sending ...', messageObject);
@@ -222,7 +224,7 @@ class MesssageApplication extends React.Component {
     return (
       <div className="columns">
         <div className="column is-narrow">
-          <ConversationTabs conversations={this.state.conversations} currentUser={currentUser} onTabChange={this.handleTabChange} currentTabId={this.state.activeConversationId} />
+          <ConversationTabs conversations={this.state.conversations} currentUser={this.state.currentUser} onTabChange={this.handleTabChange} currentTabId={this.state.activeConversationId} />
         </div>
         <div className="column">
           <Conversation messages={messages} onMessageSubmit={this.handleMessageSubmit} />
