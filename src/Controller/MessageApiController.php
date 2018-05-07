@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use App\Entity\Message;
 use App\Entity\Conversation;
@@ -23,7 +24,7 @@ class MessageApiController extends Controller
 {
     /**
      * @Route("/message/{id}",
-     *     name="message_api",
+     *     name="message_api_get_message",
      *     methods="GET",
      *     requirements={"id"="\d+"})
      */
@@ -36,6 +37,40 @@ class MessageApiController extends Controller
         }
 
         return new JsonResponse($this->convertMessageToArray($message));
+    }
+
+    /**
+     * @Route("/message",
+     *     name="message_api_post_message",
+     *     methods="POST")
+     */
+    public function postMessage(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $destinationId = (int) $request->request->get('destination');
+        $messageContent = $request->request->get('content');
+
+        $convRepo = $this->getDoctrine()->getRepository(Conversation::class);
+        $conv = $convRepo->find(destinationId);
+
+        if(is_null($conv)){
+            // unknown conversation
+            throw new BadRequestHttpException('Conversation ' .$destinationId. ' does not exist.');
+        }
+
+        if($conv->getParticipants()->contains($user)){
+            // user is not part of the conversation
+            throw new AccessDeniedHttpException('User ' .$user->getUserName(). ' is not part of conversation ' .$conv->getId(). '.');
+        }
+
+        $message = new Message();
+        $message->setDestination($conv);
+        $message->setSender($user);
+        $message->setContent($messageContent);
+
+        $entityManager->persist($message);
+        $entityManager->flush();
     }
 
     /**
