@@ -114,6 +114,7 @@ class AppFixtures extends Fixture
         $msg->setSender($sender);
         $msg->setDestination($destination);
         $msg->setContent($content);
+        $msg->setPostDate(new \DatetimeImmutable('now'));
         return $msg;
     }
 

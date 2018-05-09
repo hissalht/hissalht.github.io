@@ -33,6 +33,11 @@ class Message
      */
     private $destination;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $postDate;
+
     public function getId()
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Message
     public function setDestination(?Conversation $destination): self
     {
         $this->destination = $destination;
+
+        return $this;
+    }
+
+    public function getPostDate(): ?\DateTimeImmutable
+    {
+        return $this->postDate;
+    }
+
+    public function setPostDate(\DateTimeImmutable $postDate): self
+    {
+        $this->postDate = $postDate;
 
         return $this;
     }
