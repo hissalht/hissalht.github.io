@@ -3,7 +3,7 @@ require('./message-app.sass');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import moment from 'moment';
 
 import * as debug from './debug';
 
@@ -48,6 +48,9 @@ class Message extends React.Component {
   render() {
     return (
       <div className="msg-message">
+        <span className="msg-message-timestamp has-text-weight-light">
+            {moment(this.props.message.postDate).format('H:mm:ss')}
+        </span>
         <span className="msg-message-sender has-text-weight-semibold">
             {this.state.author}
         </span>

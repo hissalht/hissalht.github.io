@@ -2,15 +2,15 @@
 import uuid from 'uuid/v4';
 
 
-const m1 = {id: 1, sender: 1, destination: 1, content: 'hé coucou'};
-const m2 = {id: 2, sender: 1, destination: 1, content: '?? allo ?'};
-const m3 = {id: 3, sender: 2, destination: 1, content: 'yo ;)'};
-const m4 = {id: 4, sender: 3, destination: 2, content: 'SDKLfjsldkjf '};
-const m5 = {id: 5, sender: 1, destination: 2, content: 'SDFKJ DSFJ SDF'};
-const m6 = {id: 6, sender: 3, destination: 2, content: 'sdf sdfbbvcb c'};
-const m7 = {id: 7, sender: 1, destination: 3, content: 'lorem'};
-const m8 = {id: 8, sender: 2, destination: 3, content: 'ipsum'};
-const m9 = {id: 9, sender: 3, destination: 3, content: 'debug'};
+const m1 = {id: 1, sender: 1, destination: 1, content: 'hé coucou', postDate: new Date()};
+const m2 = {id: 2, sender: 1, destination: 1, content: '?? allo ?', postDate: new Date()};
+const m3 = {id: 3, sender: 2, destination: 1, content: 'yo', postDate: new Date()};
+const m4 = {id: 4, sender: 3, destination: 2, content: 'SDKLfjsldkjf ', postDate: new Date()};
+const m5 = {id: 5, sender: 1, destination: 2, content: 'SDFKJ DSFJ SDF', postDate: new Date()};
+const m6 = {id: 6, sender: 3, destination: 2, content: 'sdf sdfbbvcb c', postDate: new Date()};
+const m7 = {id: 7, sender: 1, destination: 3, content: 'lorem', postDate: new Date()};
+const m8 = {id: 8, sender: 2, destination: 3, content: 'ipsum', postDate: new Date()};
+const m9 = {id: 9, sender: 3, destination: 3, content: 'debug', postDate: new Date()};
 let mockConversationData = [{
   id: 1,
   participants: [1, 2],
