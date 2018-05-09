@@ -1,11 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 
 require('./message-app.sass');
 
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+
 import * as debug from './debug';
 
-console.log(debug.generateMessageId('mlsdkfjj'));
+
+let userCache = [];
+// transform into some kind of service ?
+function fetchAndCacheUser(id, callback, force=false) {
+  console.log('fetching ', id);
+  if(id in userCache || force) {
+    return callback(userCache[id]);
+  }
+  debug.getUser(id, (user) => {
+    console.log('caching ', user);
+    userCache[id] = user;
+    return callback(user);
+  });
+}
+
+function getUser(id, callback) {
+  if(! id in userCache) {
+    fetchAndCacheUser(id);
+  }
+  return callback(userCache[id]);
+}
 
 
 /**
@@ -14,13 +36,16 @@ console.log(debug.generateMessageId('mlsdkfjj'));
 class Message extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {author: '#' + props.message.sender};
   }
+
+
 
   render() {
     return (
       <div className="msg-message">
         <span className="msg-message-sender has-text-weight-semibold">
-            {this.props.message.sender}
+            {this.state.author}
         </span>
         <span className="msg-message-content">
           {this.props.message.content}
@@ -86,10 +111,11 @@ class MessageInput extends React.Component {
                    type="text"
                    placeholder="Send a message"
                    value={this.state.value}
+                   disabled={this.props.isDisabled}
             />
           </div>
           <div className="control">
-            <button className="button">Send</button>
+            <button className="button" disabled={this.props.isDisabled}>Send</button>
           </div>
         </div>
       </form>
@@ -115,7 +141,7 @@ class Conversation extends React.Component {
     return (
       <div className="msg-conversation">
         <Messages messages={this.props.messages} />
-        <MessageInput onSubmit={this.submitMessage}/>
+        <MessageInput onSubmit={this.submitMessage} isDisabled={this.props.isDisabled} />
       </div>
     );
   }
@@ -138,6 +164,7 @@ class ConversationTabs extends React.Component {
   render() {
     return (
       <div className="msg-conversation-tabs">
+        <h4>Conversations</h4>
         {Object.keys(this.props.conversations).map((id) => (
           <ConversationTab conversation={this.props.conversations[id]}
             currentUser={this.props.currentUser}
@@ -159,10 +186,15 @@ class ConversationTabs extends React.Component {
 class ConversationTab extends React.Component {
   constructor(props){
     super(props);
+
+    const participants = props.conversation.participants.map((userId) => '#'+userId);
+
+    this.state = {participants: participants}
   }
 
   render() {
-    const buttonText = this.props.conversation.participants.filter(name => name != this.props.currentUser);
+    const buttonText = this.state.participants.join(', ');
+
     let classes = 'button msg-conversation-tab';
     if(this.props.isActive) classes += ' is-primary';
 
@@ -183,12 +215,25 @@ class MesssageApplication extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conversations: debug.getMockData(),
-      currentUser: debug.getCurrentUser(),
-      activeConversationId: 1
+      conversations: [],
+      currentUser: null,
+      activeConversationId: null
     };
+
     this.handleTabChange = this.handleTabChange.bind(this);
     this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    // query current user
+    debug.getCurrentUser((user) => {
+      this.setState({currentUser: user});
+    });
+
+    // query user conversations
+    debug.getConversationData((data) => {
+      this.setState({conversations: data});
+    });
   }
 
   handleTabChange(tabId) {
@@ -201,19 +246,13 @@ class MesssageApplication extends React.Component {
       content: message
     };
     console.log('sending ...', messageObject);
-    //TODO send the message to api
-    // on success
-    const messageFromApi = {
-      id: Object.keys(this.state.conversations[messageObject.destination].messages).length * 6,
-      destination: messageObject.destination,
-      sender: messageObject.sender,
-      content: messageObject.content
-    };
 
-    this.setState((prevState, props) => {
-      let convs = prevState.conversations;
-      convs[messageFromApi.destination].messages.push(messageFromApi);
-      return {conversations: convs};
+    debug.postMessage(messageObject, (response) => {
+      this.setState((prevState, props) => {
+        let convs = prevState.conversations;
+        convs[response.destination].messages.push(response);
+        return {conversations: convs};
+      });
     });
   }
 
@@ -227,7 +266,7 @@ class MesssageApplication extends React.Component {
           <ConversationTabs conversations={this.state.conversations} currentUser={this.state.currentUser} onTabChange={this.handleTabChange} currentTabId={this.state.activeConversationId} />
         </div>
         <div className="column">
-          <Conversation messages={messages} onMessageSubmit={this.handleMessageSubmit} />
+          <Conversation messages={messages} onMessageSubmit={this.handleMessageSubmit} isDisabled={!this.state.activeConversationId}/>
         </div>
       </div>
     );
