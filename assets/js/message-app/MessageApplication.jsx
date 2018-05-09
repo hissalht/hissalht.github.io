@@ -39,7 +39,11 @@ class Message extends React.Component {
     this.state = {author: '#' + props.message.sender};
   }
 
-
+  componentDidMount() {
+    fetchAndCacheUser(this.props.message.sender, (user) => {
+      this.setState({author: user.username});
+    });
+  }
 
   render() {
     return (
@@ -187,9 +191,21 @@ class ConversationTab extends React.Component {
   constructor(props){
     super(props);
 
-    const participants = props.conversation.participants.map((userId) => '#'+userId);
-
+    // not display the current user
+    const participants = props.conversation.participants.filter(value => value != props.currentUser.id);
     this.state = {participants: participants}
+  }
+
+  componentDidMount() {
+    this.state.participants.forEach((userId, index) => {
+      fetchAndCacheUser(userId, (user) => {
+        this.setState((prev, props) => {
+          let newParticipants = prev.participants;
+          newParticipants[index] = user.username;
+          return {participants: newParticipants};
+        });
+      });
+    });
   }
 
   render() {
