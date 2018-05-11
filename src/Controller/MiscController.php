@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class MiscController extends Controller
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="blog_home")
      */
     public function index()
     {
@@ -18,7 +18,7 @@ class MiscController extends Controller
     }
 
     /**
-     * @Route("/about", name="about")
+     * @Route("/about", name="blog_about")
      */
     public function about()
     {
@@ -26,7 +26,7 @@ class MiscController extends Controller
     }
 
     /**
-     * @Route("/curriculum", name="curriculum")
+     * @Route("/curriculum", name="blog_curriculum")
      */
     public function curriculum()
     {
