@@ -292,7 +292,10 @@ class MesssageApplication extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <MesssageApplication />,
-  document.getElementById('message-app-root')
-);
+$(document).ready(() => {
+  ReactDOM.render(
+    <MesssageApplication />,
+    document.getElementById('message-app-root')
+  );
+});
+

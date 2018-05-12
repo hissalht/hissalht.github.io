@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use App\Entity\Message;
 use App\Entity\Conversation;
+use App\Entity\User;
 
 /**
  * @Route("/api")
@@ -118,7 +119,7 @@ class MessageApiController extends Controller
      *     methods="GET",
      *     requirements={"id"="\d+"})
      */
-    public function getUser(User $user)
+    public function getMessageUser(User $user)
     {
         return new JsonResponse($this->convertUserToArray($user));
     }
