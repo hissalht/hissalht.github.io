@@ -112,6 +112,27 @@ class MessageApiController extends Controller
         return new JsonResponse($this->convertConversationToArray($conversation));
     }
 
+    /**
+     * @Route("/user/{id}",
+     *     name="message_api_get_user",
+     *     methods="GET",
+     *     requirements={"id"="\d+"})
+     */
+    public function getUser(User $user)
+    {
+        return new JsonResponse($this->convertUserToArray($user));
+    }
+
+    /**
+     * @Route("/user/current",
+     *     name="message_api_get_current_user",
+     *     methods="GET")
+     */
+    public function getCurrentUser()
+    {
+        return new JsonResponse($this->convertUserToArray($this->getUser()));
+    }
+
     private function convertMessageToArray($msg)
     {
         return array(
@@ -136,6 +157,14 @@ class MessageApiController extends Controller
             'id' => $conversation->getId(),
             'participants' => $participants,
             'messages' => $messages
+        );
+    }
+
+    private function convertUserToArray($user)
+    {
+        return array(
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
         );
     }
 }
