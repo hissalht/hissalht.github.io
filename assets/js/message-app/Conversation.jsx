@@ -13,7 +13,6 @@ export class Conversation extends React.Component {
   }
 
   submitMessage(message) {
-    console.log('submiting message: ' + message);
     this.props.onMessageSubmit(message);
   }
 

@@ -12,7 +12,7 @@ export class Messages extends React.Component {
   render() {
     const element = this.props.messages ?
       this.props.messages.map((msg) => (
-        <Message message={msg} key={msg.id.toString()}/>
+        <Message messageId={msg} key={msg}/>
       ))
     :
       "Select a conversation or start a new one."

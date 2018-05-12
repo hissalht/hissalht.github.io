@@ -6,31 +6,9 @@ import ReactDOM from 'react-dom';
 
 import * as debug from './debug';
 
+import Service from './service';
 import { Conversation } from './Conversation';
 import { ConversationTabs } from './ConversationTabs';
-
-//TODO remove that shit
-let userCache = [];
-// transform into some kind of service ?
-function fetchAndCacheUser(id, callback, force=false) {
-  console.log('fetching ', id);
-  if(id in userCache || force) {
-    return callback(userCache[id]);
-  }
-  debug.getUser(id, (user) => {
-    console.log('caching ', user);
-    userCache[id] = user;
-    return callback(user);
-  });
-}
-
-function getUser(id, callback) {
-  if(! id in userCache) {
-    fetchAndCacheUser(id);
-  }
-  return callback(userCache[id]);
-}
-
 
 /**
  * Main app component.
@@ -50,14 +28,14 @@ class MesssageApplication extends React.Component {
 
   componentDidMount() {
     // query current user
-    debug.getCurrentUser((user) => {
-      this.setState({currentUser: user});
-    });
+    Service.getCurrentUser()
+      .then(user => this.setState({currentUser: user}))
+      .catch(err => console.error(err));
 
     // query user conversations
-    debug.getConversationData((data) => {
-      this.setState({conversations: data});
-    });
+    Service.getConversations()
+      .then(data => this.setState({conversations: data}))
+      .catch(err => console.error(err));
   }
 
   handleTabChange(tabId) {
@@ -69,15 +47,20 @@ class MesssageApplication extends React.Component {
       destination: this.state.activeConversationId,
       content: message
     };
-    console.log('sending ...', messageObject);
 
-    debug.postMessage(messageObject, (response) => {
-      this.setState((prevState, props) => {
-        let convs = prevState.conversations;
-        convs[response.destination].messages.push(response);
-        return {conversations: convs};
-      });
-    });
+    Service.postMessage(messageObject)
+      .then(response => {
+        Service.getMessage(response)
+          .then(data => {
+            this.setState((prevState, props) => {
+              let convs = prevState.conversations;
+              convs[data.destination].messages.push(data.id);
+              return {conversations: convs};
+            });
+          })
+          .catch(err => console.error(err));
+      })
+      .catch(err => console.error(err));
   }
 
   render() {

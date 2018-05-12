@@ -77,6 +77,7 @@ class MessageApiController extends Controller
         $message->setDestination($conv);
         $message->setSender($user);
         $message->setContent($messageContent);
+        $message->setPostDate(new \DateTimeImmutable('now'));
 
         $entityManager->persist($message);
         $entityManager->flush();

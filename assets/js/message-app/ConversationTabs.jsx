@@ -12,7 +12,6 @@ export class ConversationTabs extends React.Component {
   }
 
   handleTabChange(e) {
-    console.log('switching to conv ' + e.target.value);
     this.props.onTabChange(e.target.value);
   }
 

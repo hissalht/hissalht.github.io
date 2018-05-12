@@ -13,6 +13,7 @@ var messageCache = {};
  * @returns {string} A formatted error message.
  */
 function formatError(url, res) {
+  console.log(res);
   return `${url} : ${res.status} ${res.statusText}`;
 }
 
@@ -58,7 +59,13 @@ export default {
 
     return new Promise((resolve, reject) => {
       $.getJSON(RQ_URL)
-        .done((data) => resolve(data))
+        .done((data) => {
+          const formattedData = data.reduce((acc, cur) => {
+            acc[cur.id] = cur;
+            return acc;
+          }, {});
+          resolve(formattedData);
+        })
         .fail((res) => reject(formatError(RQ_URL, res)));
     });
   },
@@ -76,7 +83,10 @@ export default {
         return resolve(messageCache[id]);
       }
       $.getJSON(RQ_URL)
-        .done((data) => resolve(data))
+        .done((data) => {
+          messageCache[data.id] = data;
+          resolve(data);
+        })
         .fail((res) => reject(formatError(RQ_URL, res)));
     })
   },
@@ -88,9 +98,17 @@ export default {
    */
   postMessage: function (message) {
     const RQ_URL = `/api/message`;
+    console.log(message);
 
     return new Promise((resolve, reject) => {
-      $.post(RQ_URL, message)
+
+      $.ajax({
+        url: RQ_URL,
+        type: 'POST',
+        data: JSON.stringify(message),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+      })
         .done((data) => resolve(data))
         .fail((res) => reject(formatError(RQ_URL, res)));
     });
