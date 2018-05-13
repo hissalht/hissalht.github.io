@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Welcome!{% endblock %}</title>
-  <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+  {% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+  {% endblock stylesheet %}
 </head>
 
 <body>
@@ -50,6 +52,7 @@
             <a class="navbar-item" href="{{ path('user_list') }}">User List</a>
             {% if app.user %}
               <a class="navbar-item" href="{{ path('user_show', {'id':app.user.id}) }}">Your accound</a>
+              <a class="navbar-item" href="{{ path('message_app') }}">Message</a>
               <a class="navbar-item" href="{{ path('logout') }}">Logout</a>
             {% else %}
               <a class="navbar-item" href="{{ path('user_login') }}">Login</a>
@@ -82,7 +85,9 @@
     </div>
   </footer>
 
-  <script src="{{ asset('build/app.js') }}"></script>
+  {% block javascript %}
+    <script src="{{ asset('build/app.js') }}"></script>
+  {% endblock javascript %}
 </body>
 
 </html>
