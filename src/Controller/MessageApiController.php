@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use Psr\Log\LoggerInterface;
+
+
 use App\Entity\Message;
 use App\Entity\Conversation;
 use App\Entity\User;
@@ -23,6 +26,43 @@ use App\Entity\User;
  */
 class MessageApiController extends Controller
 {
+
+    /**
+     * Request the messages from a conversation. Use the 'conversation' parameter.
+     * @Route("/message",
+     *     name="message_api_get_messages",
+     *     methods="GET")
+     */
+    public function getMessages(Request $request, LoggerInterface $logger)
+    {
+        $user = $this->getUser();
+        $convRepo = $this->getDoctrine()->getRepository(Conversation::class);
+
+        $criteria = array(
+            'destination' => (int)$request->query->get('conversation'),
+        );
+
+        $conversation = $convRepo->find($criteria['destination']);
+
+        if (!$conversation->getParticipants()->contains($user)) {
+            return AccessDeniedHttpException('The current user is not part of conversation ' . $conversation->getId());
+        }
+
+
+        $result = $conversation->getMessages()->toArray();
+
+        $data = array();
+        foreach($result as $message) {
+            array_push($data, $this->convertMessageToArray($message));
+        }
+
+
+        $logger->info("getMessages", $data);
+
+        return new JsonResponse($data);
+
+    }
+
     /**
      * @Route("/message/{id}",
      *     name="message_api_get_message",
@@ -141,6 +181,7 @@ class MessageApiController extends Controller
             'id' => $msg->getId(),
             'sender' => $msg->getSender()->getId(),
             'destination' => $msg->getDestination()->getId(),
+            'postDate' => $msg->getPostDate(),
             'content' => $msg->getContent()
         );
     }
