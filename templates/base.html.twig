@@ -23,7 +23,7 @@
 
   <nav class="navbar is-primary is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="{{ path('blog_list') }}">Home</a>
+      <a class="navbar-item" href="{{ path('blog_home') }}">Home</a>
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -58,6 +58,13 @@
               <a class="navbar-item" href="{{ path('user_login') }}">Login</a>
               <a class="navbar-item" href="{{ path('user_signup') }}">Sign up</a>
             {% endif %}
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Other</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="{{ path('blog_about') }}">About</a>
+            <a class="navbar-item" href="{{ path('blog_curriculum') }}">Curriculum Vitae</a>
           </div>
         </div>
       </div>
