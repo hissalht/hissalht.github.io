@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheet %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('build/curriculum-app.css') }}">
+{% endblock stylesheet %}
+
+
+{% block body %}
+  <div id="curriculum-app-root"></div>
+{% endblock %}
+
+{% block javascript %}
+  {{ parent() }}
+  <script src="{{ asset('build/curriculum-app.js') }}"></script>
+{% endblock %}
