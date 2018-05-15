@@ -10,6 +10,8 @@ use App\Entity\User;
 use App\Entity\BlogPost;
 use App\Entity\Message;
 use App\Entity\Conversation;
+use App\Entity\Curriculum\Education;
+use App\Entity\Curriculum\Experience;
 
 class AppFixtures extends Fixture
 {
@@ -74,6 +76,42 @@ class AppFixtures extends Fixture
         $manager->persist($m1);
         $manager->persist($m2);
         $manager->persist($m3);
+
+        $education = $this->createEducation(
+            'Licence Informatique',
+            'Université de Caen',
+            'Informatique, Technologies du numérique',
+            2014, 2017,
+            'sldk fqlskd fqlskdf jqlksd flqskdj ');
+        $manager->persist($education);
+
+        $education = $this->createEducation(
+            'Bac S',
+            'Lycée Mezeray',
+            'Sciences',
+            2011, 2014,
+            'sldk jfjfjfj fj f jjf  jf jf jfj f ');
+        $manager->persist($education);
+
+        $exp = $this->createExperience(
+            'Développeur web',
+            'RGE',
+            'Caen',
+            new \DatetimeImmutable('now'),
+            new \DatetimeImmutable('tomorrow'),
+            'lsdk jfqlksd jfqkj kj kjkljmi_j'
+        );
+        $manager->persist($exp);
+
+        $exp2 = $this->createExperience(
+            'qsdfq',
+            'RfffffGE',
+            'Cgggaen',
+            new \DatetimeImmutable('now'),
+            new \DatetimeImmutable('tomorrow'),
+            'lsdk jfqlksdsdfgfdssssssssssssss'
+        );
+        $manager->persist($exp2);
     }
 
     private function createUser($username, $email, $password, $roles)
@@ -116,6 +154,30 @@ class AppFixtures extends Fixture
         $msg->setContent($content);
         $msg->setPostDate(new \DatetimeImmutable('now'));
         return $msg;
+    }
+
+    private function createEducation($diploma, $school, $field, $startYear, $endYear, $description)
+    {
+        $ed = new Education();
+        $ed->setDiploma($diploma);
+        $ed->setSchool($school);
+        $ed->setField($field);
+        $ed->setEndYear($endYear);
+        $ed->setStartYear($startYear);
+        $ed->setDescription($description);
+        return $ed;
+    }
+
+    private function createExperience($title, $company, $place, $start, $end, $desc)
+    {
+        $exp = new Experience();
+        $exp->setTitle($title);
+        $exp->setCompany($company);
+        $exp->setPlace($place);
+        $exp->setStartDate($start);
+        $exp->setEndDate($end);
+        $exp->setDescription($desc);
+        return $exp;
     }
 
 }
