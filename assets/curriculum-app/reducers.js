@@ -55,21 +55,14 @@ const entries = (state = initialState.entries, action) => {
 const filters = (state = initialState.filters, action) => {
   switch (action.type) {
     case TOGGLE_FILTER:
+      console.log(state, action);
       return Object.assign({}, state, {
-        [action.dataType]: !state.dataType
+        [action.dataType]: !state[action.dataType]
       });
     default:
       return state;
   }
 }
-
-// export default (state, action) => {
-//   return {
-//     selectedEntry: selectedEntry(state.selectedEntry, action),
-//     entries: entries(state.entries, action),
-//     filters: filters(state.filters, action)
-//   }
-// }
 
 export default combineReducers({
   selectedEntry,
