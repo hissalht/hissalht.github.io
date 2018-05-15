@@ -13,7 +13,7 @@ Encore
     // uncomment to define the assets of the project
     .addEntry('app', './assets/js/app.jsx')
     .addEntry('MessageApplication', './assets/js/message-app/MessageApplication.jsx')
-    .addEntry('curriculum-app', './assets/curriculum-app/main.jsx')
+    .addEntry('curriculum-app', './assets/curriculum-app/index.js')
 
     .enableSassLoader()
     .autoProvidejQuery()
