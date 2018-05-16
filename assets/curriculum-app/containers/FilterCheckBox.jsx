@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dipatch, ownProps) => ({
-  onChange: (e) => dipatch(toggleFilter(ownProps.filter))
+  onChange: () => dipatch(toggleFilter(ownProps.filter))
 })
 
 const FilterCheckBox = connect(
