@@ -14,12 +14,12 @@ export const initialState = {
       1: {
         id: 1,
         dataType: DataTypes.EDUCATION,
-        diploma: 'licence'
+        diploma: 'Licence Informatique'
       },
       2: {
         id: 2,
         dataType: DataTypes.EDUCATION,
-        diploma: 'bac'
+        diploma: 'Bac S'
       }
     },
     [DataTypes.EXPERIENCE]: {

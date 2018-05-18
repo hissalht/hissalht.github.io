@@ -7,7 +7,7 @@ const EntryList = ({ entries, selectEntry }) => (
     {entries.map((entry, index) =>
       <Entry
         key={index}
-        {...entry}
+        entry={entry}
         onClick={() => selectEntry(entry.dataType, entry.id)}
       />
     )}

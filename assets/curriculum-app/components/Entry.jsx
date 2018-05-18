@@ -2,29 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DataTypes } from '../constants';
+import EducationEntry from './EducationEntry';
+import ExperienceEntry from './ExperienceEntry';
 
-const Entry = ({ diploma, title, dataType }) => {
-  let className = "fa";
-
-  switch(dataType) {
+const Entry = ({ entry }) => {
+  switch(entry.dataType) {
     case DataTypes.EDUCATION:
-      className += " fa-graduation-cap";
-      break;
+      return <EducationEntry {...entry} />
     case DataTypes.EXPERIENCE:
-      className += " fa-briefcase";
-      break;
+      return <ExperienceEntry {...entry} />
     default:
-      throw new Error('Unknow data type: ' + dataType);
+      throw new Error('Unknow data type: ' + entry.dataType);
   }
-
-  return (
-    <a className="panel-block">
-      <span className="panel-icon">
-        <i className={className} aria-hidden="true"></i>
-      </span>
-      { diploma || title }
-    </a>
-  )
 }
 
 export default Entry;
