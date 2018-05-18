@@ -6,7 +6,7 @@ import EntryList from '../components/EntryList';
 
 
 const filterEntry = (entry, filters) => {
-  switch(filters.visibility) {
+  switch (filters.visibility) {
     case VisibilityFilters.SHOW_EXPERIENCE:
       if (entry.dataType !== DataTypes.EXPERIENCE) return false;
       break;
@@ -15,12 +15,12 @@ const filterEntry = (entry, filters) => {
       break;
   }
 
-  if(!filters.search.trim())
+  if (!filters.search.trim())
     return true;
 
   const expr = RegExp(filters.search, 'i');
 
-  switch(entry.dataType) {
+  switch (entry.dataType) {
     case DataTypes.EDUCATION:
       return !!entry.diploma.match(expr);
     case DataTypes.EXPERIENCE:
@@ -45,7 +45,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = (dispatch, props) => ({
-  selectEntry: (id, dataType) => dispatch(selectData(dataType, id))
+  selectEntry: (dataType, id) => dispatch(selectData(dataType, id))
 })
 
 export default connect(

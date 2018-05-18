@@ -8,7 +8,7 @@ const SearchFilter = ({dispatch}) => {
 
   return (
     <div className="control has-icons-left">
-      <input className="input"
+      <input className="input is-small"
              type="text"
              placeholder="Search"
              ref={node => input = node}
