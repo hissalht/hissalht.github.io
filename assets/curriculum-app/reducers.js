@@ -13,20 +13,24 @@ export const initialState = {
     [DataTypes.EDUCATION]: {
       1: {
         id: 1,
+        dataType: DataTypes.EDUCATION,
         diploma: 'licence'
       },
       2: {
         id: 2,
+        dataType: DataTypes.EDUCATION,
         diploma: 'bac'
       }
     },
     [DataTypes.EXPERIENCE]: {
       1: {
         id: 1,
+        dataType: DataTypes.EXPERIENCE,
         title: 'dev web'
       },
       2: {
         id: 2,
+        dataType: DataTypes.EXPERIENCE,
         title: 'QA tester'
       }
     }

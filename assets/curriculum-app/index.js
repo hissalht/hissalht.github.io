@@ -12,7 +12,7 @@ import { VisibilityFilters } from './constants';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, initialState, composeEnhancers(
-  applyMiddleware(logger)
+  // applyMiddleware(logger)
 ));
 
 store.dispatch(setVisibilityFilter(VisibilityFilters.SHOW_EDUCATION));
