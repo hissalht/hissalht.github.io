@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ExperienceEntry = ({ title }) => (
-  <a className="panel-block">
+const ExperienceEntry = ({ title, onClick }) => (
+  <a className="panel-block" onClick={onClick}>
     <span className="panel-icon">
       <i className="fa fa-briefcase" aria-hidden="true"></i>
     </span>
