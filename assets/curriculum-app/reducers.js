@@ -11,27 +11,33 @@ const INIT_SELECTED_ENTRY = {
 
 const INIT_ENTRIES = {
   [DataTypes.EDUCATION]: {
-    1: {
-      id: 1,
-      dataType: DataTypes.EDUCATION,
-      diploma: 'Licence Informatique'
-    },
-    2: {
-      id: 2,
-      dataType: DataTypes.EDUCATION,
-      diploma: 'Bac S'
+    ifFetching: false,
+    items: {
+      1: {
+        id: 1,
+        dataType: DataTypes.EDUCATION,
+        diploma: 'Licence Informatique'
+      },
+      2: {
+        id: 2,
+        dataType: DataTypes.EDUCATION,
+        diploma: 'Bac S'
+      }
     }
   },
   [DataTypes.EXPERIENCE]: {
-    1: {
-      id: 1,
-      dataType: DataTypes.EXPERIENCE,
-      title: 'dev web'
-    },
-    2: {
-      id: 2,
-      dataType: DataTypes.EXPERIENCE,
-      title: 'QA tester'
+    isFetching: false,
+    items: {
+      1: {
+        id: 1,
+        dataType: DataTypes.EXPERIENCE,
+        title: 'dev web'
+      },
+      2: {
+        id: 2,
+        dataType: DataTypes.EXPERIENCE,
+        title: 'QA tester'
+      }
     }
   }
 }

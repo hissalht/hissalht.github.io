@@ -33,8 +33,8 @@ const filterEntry = (entry, filters) => {
 const getVisibleEntries = (state) => {
   let result = [];
   Object.keys(state.entries).forEach(dataType => {
-    Object.keys(state.entries[dataType]).forEach(id => {
-      result.push(state.entries[dataType][id]);
+    Object.keys(state.entries[dataType].items).forEach(id => {
+      result.push(state.entries[dataType].items[id]);
     })
   })
   return result.filter(entry => filterEntry(entry, state.filters));
