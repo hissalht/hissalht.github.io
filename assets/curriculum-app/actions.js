@@ -1,8 +1,5 @@
 
-export const DataTypes = {
-  EXPERIENCE: 'EXPERIENCE',
-  EDUCATION: 'EDUCATION'
-}
+
 
 /* Select an entry to display. */
 export const SELECT_DATA = 'SELECT_DATA';
@@ -12,10 +9,17 @@ export const selectData = (dataType, id) => ({
   id
 })
 
-/* Toggle a view filter. */
-export const TOGGLE_FILTER = 'TOGGLE_FILTER';
-export const toggleFilter = dataType => ({
-  type: TOGGLE_FILTER,
-  dataType
+/* Change the visibility filter. */
+export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+export const setVisibilityFilter = filter => ({
+  type: SET_VISIBILITY_FILTER,
+  filter
 })
 
+
+/* Set the search filter. */
+export const SET_SEARCH_FILTER = 'SET_SEARCH_FILTER';
+export const setSearchFilter = filter => ({
+  type: SET_SEARCH_FILTER,
+  filter
+})

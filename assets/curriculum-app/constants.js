@@ -1,0 +1,10 @@
+export const DataTypes = {
+  EXPERIENCE: 'EXPERIENCE',
+  EDUCATION: 'EDUCATION'
+}
+
+export const VisibilityFilters = {
+  SHOW_ALL: 'SHOW_ALL',
+  SHOW_EXPERIENCE: 'SHOW_EXPERIENCE',
+  SHOW_EDUCATION: 'SHOW_EDUCATION'
+}

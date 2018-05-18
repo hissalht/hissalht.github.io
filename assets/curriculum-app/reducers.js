@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 
-import { DataTypes, SELECT_DATA, TOGGLE_FILTER } from './actions';
+import { SELECT_DATA, SET_VISIBILITY_FILTER, SET_SEARCH_FILTER } from './actions';
+
+import { DataTypes, VisibilityFilters } from './constants';
 
 export const initialState = {
   selectedEntry: {
@@ -29,10 +31,8 @@ export const initialState = {
       }
     }
   },
-  filters: {
-    [DataTypes.EDUCATION]: true,
-    [DataTypes.EXPERIENCE]: true
-  }
+  visibilityFilter: VisibilityFilters.SHOW_ALL,
+  searchFilter: ''
 }
 
 const selectedEntry = (state = initialState.selectedEntry, action) => {
@@ -52,13 +52,19 @@ const entries = (state = initialState.entries, action) => {
   return state;
 }
 
-const filters = (state = initialState.filters, action) => {
+const visibilityFilter = (state = VisibilityFilters.SHOW_ALL, action) => {
   switch (action.type) {
-    case TOGGLE_FILTER:
-      console.log(state, action);
-      return Object.assign({}, state, {
-        [action.dataType]: !state[action.dataType]
-      });
+    case SET_VISIBILITY_FILTER:
+      return action.filter;
+    default:
+      return state;
+  }
+}
+
+const searchFilter = (state = '', action) => {
+  switch (action.type) {
+    case SET_SEARCH_FILTER:
+      return action.filter;
     default:
       return state;
   }
@@ -67,5 +73,6 @@ const filters = (state = initialState.filters, action) => {
 export default combineReducers({
   selectedEntry,
   entries,
-  filters
+  visibilityFilter,
+  searchFilter
 });

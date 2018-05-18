@@ -1,14 +1,12 @@
 import React from 'react'
 
-import Header from './Header';
-import SideBar from './SideBar';
-// import EntryDisplay from './EntryDisplay';
+import SidePanel from './SidePanel';
 
 const App = () => (
-  <div>
-    <Header />
-    <SideBar />
-    {/* <EntryDisplay /> */}
+  <div className="columns">
+    <div className="column is-narrow">
+      <SidePanel />
+    </div>
   </div>
 )
 
