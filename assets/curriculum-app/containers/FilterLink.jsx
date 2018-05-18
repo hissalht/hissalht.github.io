@@ -4,7 +4,7 @@ import { setVisibilityFilter } from '../actions';
 import Link from '../components/Link';
 
 const mapStateToProps = (state, props) => ({
-  active: state.visibilityFilter == props.filter
+  active: state.filters.visibility == props.filter
 })
 
 const mapDispatchToProps = (dispatch, props) => ({

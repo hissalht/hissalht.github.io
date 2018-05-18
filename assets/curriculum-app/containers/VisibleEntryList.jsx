@@ -5,6 +5,31 @@ import { VisibilityFilters, DataTypes } from '../constants';
 import EntryList from '../components/EntryList';
 
 
+const filterEntry = (entry, filters) => {
+  switch(filters.visibility) {
+    case VisibilityFilters.SHOW_EXPERIENCE:
+      if (entry.dataType !== DataTypes.EXPERIENCE) return false;
+      break;
+    case VisibilityFilters.SHOW_EDUCATION:
+      if (entry.dataType !== DataTypes.EDUCATION) return false;
+      break;
+  }
+
+  if(!filters.search.trim())
+    return true;
+
+  const expr = RegExp(filters.search, 'i');
+
+  switch(entry.dataType) {
+    case DataTypes.EDUCATION:
+      return !!entry.diploma.match(expr);
+    case DataTypes.EXPERIENCE:
+      return !!entry.title.match(expr);
+    default:
+      throw new Error('Unknow data type: ' + entry.dataType);
+  }
+}
+
 const getVisibleEntries = (state) => {
   let result = [];
   Object.keys(state.entries).forEach(dataType => {
@@ -12,17 +37,7 @@ const getVisibleEntries = (state) => {
       result.push(state.entries[dataType][id]);
     })
   })
-  switch(state.visibilityFilter){
-    case VisibilityFilters.SHOW_ALL:
-      return result;
-    case VisibilityFilters.SHOW_EXPERIENCE:
-      return result.filter(entry => entry.dataType == DataTypes.EXPERIENCE);
-    case VisibilityFilters.SHOW_EDUCATION:
-      return result.filter(entry => entry.dataType == DataTypes.EDUCATION);
-    default:
-      throw new Error('Unknown filter ' + state.visibilityFilter);
-  }
-  return result;
+  return result.filter(entry => filterEntry(entry, state.filters));
 }
 
 const mapStateToProps = (state, props) => ({

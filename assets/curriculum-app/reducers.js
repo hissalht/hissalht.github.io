@@ -4,42 +4,45 @@ import { SELECT_DATA, SET_VISIBILITY_FILTER, SET_SEARCH_FILTER } from './actions
 
 import { DataTypes, VisibilityFilters } from './constants';
 
-export const initialState = {
-  selectedEntry: {
-    dataType: DataTypes.EDUCATION,
-    id: 2
-  },
-  entries: {
-    [DataTypes.EDUCATION]: {
-      1: {
-        id: 1,
-        dataType: DataTypes.EDUCATION,
-        diploma: 'Licence Informatique'
-      },
-      2: {
-        id: 2,
-        dataType: DataTypes.EDUCATION,
-        diploma: 'Bac S'
-      }
-    },
-    [DataTypes.EXPERIENCE]: {
-      1: {
-        id: 1,
-        dataType: DataTypes.EXPERIENCE,
-        title: 'dev web'
-      },
-      2: {
-        id: 2,
-        dataType: DataTypes.EXPERIENCE,
-        title: 'QA tester'
-      }
-    }
-  },
-  visibilityFilter: VisibilityFilters.SHOW_ALL,
-  searchFilter: ''
+const INIT_SELECTED_ENTRY = {
+  dataType: DataTypes.EDUCATION,
+  id: 2
 }
 
-const selectedEntry = (state = initialState.selectedEntry, action) => {
+const INIT_ENTRIES = {
+  [DataTypes.EDUCATION]: {
+    1: {
+      id: 1,
+      dataType: DataTypes.EDUCATION,
+      diploma: 'Licence Informatique'
+    },
+    2: {
+      id: 2,
+      dataType: DataTypes.EDUCATION,
+      diploma: 'Bac S'
+    }
+  },
+  [DataTypes.EXPERIENCE]: {
+    1: {
+      id: 1,
+      dataType: DataTypes.EXPERIENCE,
+      title: 'dev web'
+    },
+    2: {
+      id: 2,
+      dataType: DataTypes.EXPERIENCE,
+      title: 'QA tester'
+    }
+  }
+}
+
+const INIT_FILTERS = {
+  visibility: VisibilityFilters.SHOW_ALL,
+  search: ''
+}
+
+
+const selectedEntry = (state = INIT_SELECTED_ENTRY, action) => {
   switch (action.type) {
     case SELECT_DATA:
       return Object.assign({}, state, {
@@ -51,24 +54,23 @@ const selectedEntry = (state = initialState.selectedEntry, action) => {
   }
 }
 
-const entries = (state = initialState.entries, action) => {
+
+const entries = (state = INIT_ENTRIES, action) => {
   // we will add data fetching later
   return state;
 }
 
-const visibilityFilter = (state = VisibilityFilters.SHOW_ALL, action) => {
+
+const filters = (state = INIT_FILTERS, action) => {
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
-      return action.filter;
-    default:
-      return state;
-  }
-}
-
-const searchFilter = (state = '', action) => {
-  switch (action.type) {
+      return Object.assign({}, state, {
+        visibility: action.filter
+      });
     case SET_SEARCH_FILTER:
-      return action.filter;
+      return Object.assign({}, state, {
+        search: action.filter
+      });
     default:
       return state;
   }
@@ -77,6 +79,5 @@ const searchFilter = (state = '', action) => {
 export default combineReducers({
   selectedEntry,
   entries,
-  visibilityFilter,
-  searchFilter
+  filters
 });
