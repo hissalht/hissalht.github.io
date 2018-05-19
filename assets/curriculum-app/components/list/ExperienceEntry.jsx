@@ -12,7 +12,7 @@ const ExperienceEntry = ({ title, onClick }) => (
 
 ExperienceEntry.propTypes = {
   title: PropTypes.string.isRequired,
-  onClick: PropTypes.onClick.isRequired
+  onClick: PropTypes.func.isRequired
 }
 
 export default ExperienceEntry;

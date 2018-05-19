@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Entry from '../Entry';
+import Entry from './Entry';
 
 const EntryList = ({ entries, selectEntry }) => (
   <React.Fragment>
