@@ -5,6 +5,11 @@ import { VisibilityFilters, DataTypes } from '../constants';
 import EntryList from '../components/list/EntryList';
 
 
+/**
+ * @param {object} entry
+ * @param {object} filters
+ * @returns {boolean} true if the entry is not filtered out.
+ */
 const filterEntry = (entry, filters) => {
   switch (filters.visibility) {
     case VisibilityFilters.SHOW_EXPERIENCE:
@@ -30,6 +35,11 @@ const filterEntry = (entry, filters) => {
   }
 }
 
+/**
+ * Get the visible entries.
+ * @param {object} state redux state
+ * @returns {[object]}
+ */
 const getVisibleEntries = (state) => {
   let result = [];
   Object.keys(state.entries).forEach(dataType => {

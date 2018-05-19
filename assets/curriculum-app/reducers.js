@@ -8,12 +8,8 @@ import {
   RECEIVE_DATA
 } from './actions';
 
-import { DataTypes, VisibilityFilters } from './constants';
+import { DataTypes } from './constants';
 
-const INIT_SELECTED_ENTRY = {
-  dataType: DataTypes.EDUCATION,
-  id: 2
-}
 
 const INIT_ENTRIES = {
   [DataTypes.EDUCATION]: {
@@ -24,11 +20,6 @@ const INIT_ENTRIES = {
     isFetching: false,
     items: {}
   }
-}
-
-const INIT_FILTERS = {
-  visibility: VisibilityFilters.SHOW_ALL,
-  search: ''
 }
 
 
