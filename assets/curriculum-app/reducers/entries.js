@@ -1,15 +1,9 @@
-import { combineReducers } from 'redux';
 
 import {
-  SELECT_DATA,
-  SET_VISIBILITY_FILTER,
-  SET_SEARCH_FILTER,
   REQUEST_DATA,
   RECEIVE_DATA
-} from './actions';
-
-import { DataTypes } from './constants';
-
+} from '../actions';
+import { DataTypes } from '../constants';
 
 const INIT_ENTRIES = {
   [DataTypes.EDUCATION]: {
@@ -21,20 +15,6 @@ const INIT_ENTRIES = {
     items: {}
   }
 }
-
-
-const selectedEntry = (state = null, action) => {
-  switch (action.type) {
-    case SELECT_DATA:
-      return Object.assign({}, state, {
-        dataType: action.dataType,
-        id: action.id
-      });
-    default:
-      return state;
-  }
-}
-
 
 const entries = (
   state = {
@@ -73,24 +53,4 @@ const entriesByDataType = (state = INIT_ENTRIES, action) => {
   }
 }
 
-
-const filters = (state = INIT_FILTERS, action) => {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return Object.assign({}, state, {
-        visibility: action.filter
-      });
-    case SET_SEARCH_FILTER:
-      return Object.assign({}, state, {
-        search: action.filter
-      });
-    default:
-      return state;
-  }
-}
-
-export default combineReducers({
-  selectedEntry,
-  entries: entriesByDataType,
-  filters
-});
+export default entriesByDataType;
