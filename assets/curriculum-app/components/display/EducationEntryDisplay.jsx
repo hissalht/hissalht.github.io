@@ -51,8 +51,8 @@ EducationDisplayEntry.propTypes = {
   diploma: PropTypes.string.isRequired,
   field: PropTypes.string.isRequired,
   school: PropTypes.string.isRequired,
-  startYear: checkDateFormat,
-  endYear: checkDateFormat
+  startYear: PropTypes.number.isRequired,
+  endYear: PropTypes.number.isRequired
 }
 
 export default EducationDisplayEntry;
