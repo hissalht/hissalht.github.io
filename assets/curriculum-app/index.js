@@ -1,7 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import logger from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
@@ -10,14 +14,12 @@ import App from './components/App';
 import { fetchEntries } from './actions';
 import { DataTypes } from './constants';
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(
-  rootReducer,
+const store = createStore(rootReducer,composeWithDevTools(
   applyMiddleware(
     thunkMiddleware,
     logger
   )
-);
+));
 
 store.dispatch(fetchEntries(DataTypes.EDUCATION))
 store.dispatch(fetchEntries(DataTypes.EXPERIENCE))
