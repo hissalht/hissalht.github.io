@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DataTypes } from '../constants';
-import EducationEntry from './list/EducationEntry';
-import ExperienceEntry from './list/ExperienceEntry';
+import EducationEntry from './EducationEntry';
+import ExperienceEntry from './ExperienceEntry';
 
 const Entry = ({ entry, onClick }) => {
   switch(entry.dataType) {
@@ -24,6 +24,11 @@ const Entry = ({ entry, onClick }) => {
     default:
       throw new Error('Unknow data type: ' + entry.dataType);
   }
+}
+
+Entry.propTypes = {
+  entry: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Entry;
