@@ -35,4 +35,3 @@ config.plugins = config.plugins.map(plugin => {
 })
 
 module.exports = config;
-
