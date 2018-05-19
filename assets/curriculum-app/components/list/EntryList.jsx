@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Entry from '../Entry';
 
@@ -13,5 +14,10 @@ const EntryList = ({ entries, selectEntry }) => (
     )}
   </React.Fragment>
 )
+
+EntryList.propTypes = {
+  entries: PropTypes.array.isRequired,
+  selectEntry: PropTypes.func.isRequired
+}
 
 export default EntryList;
