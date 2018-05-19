@@ -32,4 +32,12 @@ class MiscController extends Controller
     {
         return $this->render('misc/cv.html.twig');
     }
+
+    /**
+     * @Route("/curriculum/app", name="blog_curriculum_app")
+     */
+    public function curriculumApp()
+    {
+        return $this->render('misc/cv-app.html.twig');
+    }
 }
