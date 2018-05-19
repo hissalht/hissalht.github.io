@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Entry from './Entry';
+import Entry from '../Entry';
 
 const EntryList = ({ entries, selectEntry }) => (
   <React.Fragment>

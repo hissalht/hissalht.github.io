@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import EntryDisplay from '../components/EntryDisplay';
+import EntryDisplay from '../components/display/EntryDisplay';
 
 const mapStateToProps = (state, props) => state.selectedEntry ? {
   entry: state.entries[state.selectedEntry.dataType].items[state.selectedEntry.id]

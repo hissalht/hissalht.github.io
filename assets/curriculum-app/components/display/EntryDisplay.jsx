@@ -2,7 +2,7 @@ import React from 'react';
 
 import EducationEntryDisplay from './EducationEntryDisplay';
 import ExperienceEntryDisplay from './ExperienceEntryDisplay';
-import { DataTypes } from '../constants';
+import { DataTypes } from '../../constants';
 
 const EntryDisplay = ({ entry }) => {
   if (!entry)

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { selectData } from '../actions';
 import { VisibilityFilters, DataTypes } from '../constants';
-import EntryList from '../components/EntryList';
+import EntryList from '../components/list/EntryList';
 
 
 const filterEntry = (entry, filters) => {

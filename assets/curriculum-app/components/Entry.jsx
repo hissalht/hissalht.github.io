@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { DataTypes } from '../constants';
-import EducationEntry from './EducationEntry';
-import ExperienceEntry from './ExperienceEntry';
+import EducationEntry from './list/EducationEntry';
+import ExperienceEntry from './list/ExperienceEntry';
 
 const Entry = ({ entry, onClick }) => {
   switch(entry.dataType) {
