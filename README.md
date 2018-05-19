@@ -8,7 +8,7 @@ CSS framework : [Bulma](https://bulma.io/)
 
 Eventually, there will be a bit of [React](https://reactjs.org/) and [Redux](https://redux.js.org/).
 
-## How to
+## Quick setup
 
 Install the dependencies
 ```bash
@@ -30,4 +30,11 @@ $ yarn run build
 Finally run the actual server with
 ```
 $ php bin/console server:run
+```
+
+## Routes
+
+You can visualize the application routes with 
+```bash
+$ php bin/console debug:router
 ```
