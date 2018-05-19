@@ -29,14 +29,11 @@ const ExperienceEntryDisplay = ({
   </nav>
 )
 
-/*
- * Regular expression matching the ISO 8601 format
- * source: https://www.regextester.com/97766
- */
-const iso8601 = RegExp('^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$');
+
 
 const checkDateFormat = (props, propName, componentName) => {
-  if(iso8601.test(props[propName])){
+  const m = moment(props[propName], moment.ISO_8601, true);
+  if(!m.isValid()){
     return new Error(`In ${componentName}, ${propName} doesnt conforms to the ISO 8601 format.`);
   }
 }
