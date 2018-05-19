@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+<h3 class="title is-3">About</h3>
+<p>
+  This website is basically my personnal experimentation platform.
+  It's made using the <a href="https://symfony.com/">Symfony framework</a>. The pages are generated using the <a href="https://twig.symfony.com/">Twig templating engine</a> and styled with the <a href="https://bulma.io/">Bulma CSS framework</a>.
+</p>
+
+<p>
+  The sources of <span class="is-italic">That guy's website</span> are available <a href="https://github.com/hissalht/blog-project">on github</a>. You can learn more about me on my <a href="{{ path('blog_curriculum') }}">résumé</a>.
+</p>
+
+{% endblock body %}

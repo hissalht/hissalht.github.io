@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h3 class="title is-3">Curriculum Vitae</h3>
+
+<div class="box">
+  <h5 class="title is-4">Web Frameworks</h5>
+  <ul>
+    <li>Django (Python)</li>
+    <li>Symfony 4.0 (PHP)</li>
+    <li>Express (Node.js)</li>
+    <li>Bulma (CSS)</li>
+    <li>Angular (TypeScript)</li>
+  </ul>
+</div>
+
+<div class="box">
+  <h5 class="title is-4">Languages</h5>
+  <ul>
+    <li>Python</li>
+    <li>PHP</li>
+    <li>Javascript</li>
+    <li>C/C++</li>
+    <li>Java</li>
+    <li>HTML</li>
+    <li>CSS, SCSS, SASS</li>
+  </ul>
+</div>
+
+<div class="box">
+  <h5 class="title is-4">Education</h5>
+  <div class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img src="{{ asset('img/unicaen_logo_dark.png') }}" alt="something">
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>Licence Informatique</strong> <small>Univérsité de Caen</small>
+          <br>
+          qskldf qslkdf jqslmdkf jqsmldkfjqlsdjf
+          qskldf qslkdf jqslmdkf jqsmldkfjqlsdjf
+          qskldf qslkdf jqslmdkf jqsmldkfjqlsdjf
+          qskldf qslkdf jqslmdkf jqsmldkfjqlsdjf
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img src="{{ asset('img/mezeray_logo.png') }}" alt="logo lycée mézeray">
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>Bac Scientifique</strong> <small>Lycée Mezeray, Argentan</small>
+          <br>
+          qslk fqlksd jflqmksjd flqskjdf lskdjq flmskdjf qlskdfj qsldfkj
+          qslk fqlksd jflqmksjd flqskjdf lskdjq flmskdjf qlskdfj qsldfkj
+          qslk fqlksd jflqmksjd flqskjdf lskdjq flmskdjf qlskdfj qsldfkj
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="box">
+  <h5 class="title is-4">Experience</h5>
+  <div class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <img src="{{ asset('img/rge_logo.png') }}" alt="rge logo">
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>Stagiaire Développeur Web</strong> <small>RGExpertise, Caen</small>
+          <br>
+          Maintaining and improving the web application RGExpertise using
+          <span class="is-italic">Node.js</span>,
+          <span class="is-italic">Express</span>,
+          <span class="is-italic">AngularJS</span>,
+          <span class="is-italic">MongoDB</span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

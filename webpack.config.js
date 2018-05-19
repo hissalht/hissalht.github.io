@@ -8,15 +8,18 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())
     // uncomment to create hashed filenames (e.g. app.abc123.css)
-    // .enableVersioning(Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    .addEntry('app', './assets/js/app.js')
+    .addEntry('app', './assets/js/app.jsx')
+    .addEntry('MessageApplication', './assets/js/message-app/MessageApplication.jsx')
+    .addEntry('curriculum-app', './assets/curriculum-app/index.js')
 
     .enableSassLoader()
     .autoProvidejQuery()
     .enableSourceMaps(!Encore.isProduction())
     .enableBuildNotifications()
+    .enableReactPreset()
 ;
 
 module.exports = Encore.getWebpackConfig();
