@@ -1,4 +1,6 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
+const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 Encore
     // the project directory where compiled assets will be stored
@@ -22,4 +24,15 @@ Encore
     .enableReactPreset()
 ;
 
-module.exports = Encore.getWebpackConfig();
+// changing the default uglifyJS to some that actually work.
+const config = Encore.getWebpackConfig();
+
+config.plugins = config.plugins.map(plugin => {
+  if(plugin instanceof webpack.optimize.UglifyJsPlugin){
+    return new UglifyJsPlugin();
+  }
+  return plugin;
+})
+
+module.exports = config;
+
