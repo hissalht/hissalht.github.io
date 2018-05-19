@@ -1,6 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { SELECT_DATA, SET_VISIBILITY_FILTER, SET_SEARCH_FILTER } from './actions';
+import {
+  SELECT_DATA,
+  SET_VISIBILITY_FILTER,
+  SET_SEARCH_FILTER,
+  REQUEST_DATA,
+  RECEIVE_DATA
+} from './actions';
 
 import { DataTypes, VisibilityFilters } from './constants';
 
@@ -11,34 +17,12 @@ const INIT_SELECTED_ENTRY = {
 
 const INIT_ENTRIES = {
   [DataTypes.EDUCATION]: {
-    ifFetching: false,
-    items: {
-      1: {
-        id: 1,
-        dataType: DataTypes.EDUCATION,
-        diploma: 'Licence Informatique'
-      },
-      2: {
-        id: 2,
-        dataType: DataTypes.EDUCATION,
-        diploma: 'Bac S'
-      }
-    }
+    isFetching: false,
+    items: {}
   },
   [DataTypes.EXPERIENCE]: {
     isFetching: false,
-    items: {
-      1: {
-        id: 1,
-        dataType: DataTypes.EXPERIENCE,
-        title: 'dev web'
-      },
-      2: {
-        id: 2,
-        dataType: DataTypes.EXPERIENCE,
-        title: 'QA tester'
-      }
-    }
+    items: {}
   }
 }
 
@@ -48,7 +32,7 @@ const INIT_FILTERS = {
 }
 
 
-const selectedEntry = (state = INIT_SELECTED_ENTRY, action) => {
+const selectedEntry = (state = null, action) => {
   switch (action.type) {
     case SELECT_DATA:
       return Object.assign({}, state, {
@@ -61,9 +45,41 @@ const selectedEntry = (state = INIT_SELECTED_ENTRY, action) => {
 }
 
 
-const entries = (state = INIT_ENTRIES, action) => {
-  // we will add data fetching later
-  return state;
+const entries = (
+  state = {
+    isFetching: false,
+    items: {}
+  },
+  action
+) => {
+  switch(action.type) {
+    case REQUEST_DATA:
+      return Object.assign({}, state, {
+        isFetching: true
+      });
+    case RECEIVE_DATA:
+      Object.keys(action.data)
+        // Add the datatype field to the received entries.
+        .forEach(id => action.data[id].dataType = action.dataType);
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: action.data,
+      });
+    default:
+      return state;
+  }
+}
+
+const entriesByDataType = (state = INIT_ENTRIES, action) => {
+  switch(action.type) {
+    case REQUEST_DATA:
+    case RECEIVE_DATA:
+      return Object.assign({}, state, {
+        [action.dataType]: entries(state[action.dataType], action)
+      });
+    default:
+      return state;
+  }
 }
 
 
@@ -84,6 +100,6 @@ const filters = (state = INIT_FILTERS, action) => {
 
 export default combineReducers({
   selectedEntry,
-  entries,
+  entries: entriesByDataType,
   filters
 });

@@ -5,6 +5,8 @@ import ExperienceEntryDisplay from './ExperienceEntryDisplay';
 import { DataTypes } from '../constants';
 
 const EntryDisplay = ({ entry }) => {
+  if (!entry)
+    return null
   switch (entry.dataType) {
     case DataTypes.EDUCATION:
       return <EducationEntryDisplay {...entry} />;
