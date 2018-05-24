@@ -12,9 +12,7 @@ class MiscController extends Controller
      */
     public function index()
     {
-        return $this->render('misc/index.html.twig', [
-            'controller_name' => 'MiscController',
-        ]);
+        return $this->redirectToRoute('blog_last');
     }
 
     /**
